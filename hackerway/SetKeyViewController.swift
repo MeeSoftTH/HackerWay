@@ -8,9 +8,12 @@
 
 import UIKit
 
-class SetKeyViewController: UIViewController {
+class SetKeyViewController: UIViewController, keyPadProtocal {
 
-    @IBOutlet var keyboardView: UIView!
+    @IBOutlet var box1: UILabel!
+    @IBOutlet var box2: UILabel!
+    @IBOutlet var box3: UILabel!
+    @IBOutlet var box4: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +30,34 @@ class SetKeyViewController: UIViewController {
         println("done")
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func addLabel(index: String) {
+        
+        if box1.text == "" {
+            box1.text = index
+        }else if box2.text == "" {
+            box2.text = index
+        }else if box3.text == "" {
+            box3.text = index
+        }else if box4.text == "" {
+            box4.text = index
+        }
     }
-    */
+    
+    func keyPadIndex(index: Int){
+        
+        println("index is = \(index)")
+        
+        var addText = String(index)
+        
+        if index == 11 {
+            addText = "*"
+        }else if index == 12 {
+            addText = "#"
+        }else if index == 10 {
+            addText = "0"
+        }
+        
+        self.addLabel(addText)
+    }
 
 }

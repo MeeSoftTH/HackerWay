@@ -21,8 +21,8 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func storyButton(sender: UIButton) {
-        
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        defind.variable.keyPadViewActivate = vc
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
@@ -30,6 +30,7 @@ class MenuViewController: UIViewController {
     @IBAction func challengeButton(sender: UIButton) {
         
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as!SetKeyViewController
+        defind.variable.keyPadViewActivate = vc
         self.presentViewController(vc, animated: true, completion: nil)
         
     }

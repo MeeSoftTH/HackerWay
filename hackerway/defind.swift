@@ -11,7 +11,8 @@ import UIKit
 class defind {
     
     struct variable {
-        //static let hello1a: String = "HI_P0_01_01"
+        static var keyPadViewActivate: keyPadProtocal! = GameViewController()
+        static var missionNo: Int = 1
     }
    
 }
