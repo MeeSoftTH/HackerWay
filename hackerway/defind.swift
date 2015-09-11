@@ -12,11 +12,20 @@ class defind {
     
     struct variable {
         static var keyPadViewActivate: keyPadProtocal! = GameViewController()
-        static var missionNo: Int = 1
-        static var yourLife: Int = 10
-        static var intAns = [Int]()
-        static var strAns = [String]()
-        static var chaKey = [String]()
         
+        static var deadCouter: Int = 10
+        static var currentMissionTitle: String = ""
+        static var currentMissionLabel: String = ""
+        static var currentMultiply: Int = 1
+        static var currentLevel: Int = 0
+        static let challengeTitle = "Challenge mode"
+        static let challengeLabel = ""
+    }
+    
+    struct datas {
+        static var hightScore = 0
+        static let defaultNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        static var storyKey = [String]()
+        static var challengeKey = [String]()
     }
 }

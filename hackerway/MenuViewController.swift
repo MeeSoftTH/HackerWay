@@ -10,9 +10,13 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
+    @IBOutlet var score: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        score.text = getScore()
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +26,7 @@ class MenuViewController: UIViewController {
     
     @IBAction func storyButton(sender: UIButton) {
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        vc.mode = "STORY"
         defind.variable.keyPadViewActivate = vc
         self.presentViewController(vc, animated: true, completion: nil)
     }
@@ -32,8 +37,14 @@ class MenuViewController: UIViewController {
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as!SetKeyViewController
         defind.variable.keyPadViewActivate = vc
         self.presentViewController(vc, animated: true, completion: nil)
-        
     }
     
+    func getScore()-> String {
+        let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+        let hightScore = userSetting.integerForKey("hiscore")
+        var scoreLabel: String = "Hight score : \(String(hightScore))"
+        
+        return scoreLabel
+    }
 }
 

@@ -21,6 +21,11 @@ class SummaryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func setScore(score: Int) {
+        let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+        userSetting.setInteger(score, forKey: "hiscore")
+    }
 
     /*
     // MARK: - Navigation

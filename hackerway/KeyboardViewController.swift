@@ -29,6 +29,9 @@ class KeyboardViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func button0(sender: UIButton) {
+        self.keyIndex?.keyPadIndex(0)
+    }
     
     @IBAction func button1(sender: UIButton) {
         //println("Touched")
@@ -67,16 +70,12 @@ class KeyboardViewController: UIViewController {
         self.keyIndex?.keyPadIndex(9)
     }
     
-    @IBAction func button0(sender: UIButton) {
+    @IBAction func buttonStar(sender: UIButton) {
         self.keyIndex?.keyPadIndex(10)
     }
     
-    @IBAction func buttonStar(sender: UIButton) {
-        self.keyIndex?.keyPadIndex(11)
-    }
-    
     @IBAction func buttonSharp(sender: UIButton) {
-        self.keyIndex?.keyPadIndex(12)
+        self.keyIndex?.keyPadIndex(11)
     }
     
 

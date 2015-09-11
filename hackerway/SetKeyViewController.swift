@@ -10,6 +10,8 @@ import UIKit
 
 class SetKeyViewController: UIViewController, keyPadProtocal {
     
+    @IBOutlet var titleLabel: UILabel!
+    
     @IBOutlet var box1: UILabel!
     @IBOutlet var box2: UILabel!
     @IBOutlet var box3: UILabel!
@@ -24,6 +26,8 @@ class SetKeyViewController: UIViewController, keyPadProtocal {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        titleLabel.text = defind.variable.challengeTitle
+        
         // Dispose of any resources that can be recreated.
     }
     
@@ -34,12 +38,12 @@ class SetKeyViewController: UIViewController, keyPadProtocal {
     
     @IBAction func setBunnon(sender: UIButton) {
         setKey()
-        reset()
-        
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        vc.mode = "CHALLENGE"
         defind.variable.keyPadViewActivate = vc
         
         delay(1.0){
+            self.reset()
             self.presentViewController(vc, animated: true, completion: nil)
         }
     }
@@ -51,14 +55,6 @@ class SetKeyViewController: UIViewController, keyPadProtocal {
     
     func addLabel(index: Int) {
         var text = String(index)
-        
-        if index == 11 {
-            text = "*"
-        }else if index == 12 {
-            text = "#"
-        }else if index == 10 {
-            text = "0"
-        }
         
         if box1.text == "" {
             box1.text = text
@@ -76,7 +72,7 @@ class SetKeyViewController: UIViewController, keyPadProtocal {
     }
     
     func setKey() {
-        defind.variable.chaKey = chaKey
+        defind.datas.challengeKey = chaKey
     }
     
     func reset() {
