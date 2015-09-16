@@ -23,13 +23,19 @@ class functions {
         let multi: Int = currentData[2] as! Int
         let strict: Bool = currentData[3] as! Bool
         let randomLength: Int = currentData[4] as! Int
-        let isFinger: Bool = currentData[5] as! Bool
+        let showFinger: Bool = currentData[5] as! Bool
         let buttonOn: Int = currentData[6] as! Int
         let isShuffle: Bool = currentData[7] as! Bool
         
         //defind label
         defind.variable.currentMissionTitle = title
         defind.variable.currentMissionLabel = label
+        defind.variable.multi = multi
+        defind.variable.strict = strict
+        defind.variable.showFinger = showFinger
+        defind.variable.buttonOn = buttonOn
+        defind.variable.isShuffle = isShuffle
+        
         
         for var i: Int = 0; i < randomLength; i++ {
             let randomArray = Int(arc4random_uniform(UInt32(defaultNumber.count)))

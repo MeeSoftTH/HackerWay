@@ -8,9 +8,7 @@
 
 import UIKit
 
-class SetKeyViewController: UIViewController, keyPadProtocal {
-    
-    @IBOutlet var titleLabel: UILabel!
+class SetKeyViewController: UIViewController, setKeyLabelProtocal {
     
     @IBOutlet var box1: UILabel!
     @IBOutlet var box2: UILabel!
@@ -19,35 +17,33 @@ class SetKeyViewController: UIViewController, keyPadProtocal {
     
     var chaKey = [String]()
     
+    var gameView: String = "GAMECONTROL"
+    var setView: String = "SETKEY"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        titleLabel.text = defind.variable.challengeTitle
-        
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func exitButton(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        println("done")
+
+    override func viewWillAppear(animated: Bool) {
+       defind.variable.currentView = setView
+        
     }
     
     @IBAction func setBunnon(sender: UIButton) {
         setKey()
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
-        vc.mode = "CHALLENGE"
+        defind.variable.currentView = gameView
         defind.variable.keyPadViewActivate = vc
-        
         delay(1.0){
             self.reset()
             self.presentViewController(vc, animated: true, completion: nil)
         }
     }
-    
     
     @IBAction func clearButton(sender: UIButton) {
         reset()

@@ -12,31 +12,37 @@ class MenuViewController: UIViewController {
     
     @IBOutlet var score: UILabel!
     
+    var gameView: String = "GAMECONTROL"
+    var setView: String = "SETKEY"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         score.text = getScore()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func storyButton(sender: UIButton) {
+        defind.variable.currentMode = "STORY"
+        
         var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
-        vc.mode = "STORY"
         defind.variable.keyPadViewActivate = vc
+        defind.variable.currentView = gameView
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
     
     @IBAction func challengeButton(sender: UIButton) {
-        
-        var vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as!SetKeyViewController
-        defind.variable.keyPadViewActivate = vc
-        self.presentViewController(vc, animated: true, completion: nil)
+        defind.variable.currentMode = "CHALLENGE"
+        defind.variable.currentView = setView
+        var vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as! SetKeyViewController
+        defind.variable.setKeyViewActivate = vc
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func getScore()-> String {
