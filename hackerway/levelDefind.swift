@@ -12,10 +12,26 @@ class levelDefind {
     
     struct params{
         // Defind level [title(string), level(string), multiply(Int), strict(bool), arrayLength(Int), showfiger(bool), avalible button(default 10), shuffle button(bool)]
-        static let level1 = ["Mission1", "Basic", 2, true, 2, true, 10, false]
+        static let level1 = ["Mission1", "หัดสังเกต", 1, true, 2, true, 10, false] // index 0
+        static let level2 = ["Mission2", "หัดสังเกต 2", 2, true, 3, true, 10, false]
+        static let level3 = ["Mission3", "หัดสังเกต 3", 3, true, 4, false, 10, false]
+        static let level4 = ["Mission4", "มีปุ่มเสียเยอะ", 4, true, 4, false, 4, false]
+        static let level5 = ["Mission5", "มีปุ่มเสียเยอะ 2", 5, true, 3, false, 4, false]
+        static let level6 = ["Mission6", "ซ้อม", 6, true, 5, false, 5, false]
+        static let level7 = ["Mission7", "หัซ้อม 2", 7, true, 6, false, 6, false]
+        static let level8 = ["Mission8", "ซ้อม 3", 8, true, 7, false, 7, false]
+        static let level9 = ["Mission9", "Turn Pro", 9, true, 2, false, 10, false]
+        static let level10 = ["Mission10", "เริ่มงาน", 10, true, 4, false, 10, false]
+        
+        static let level11 = ["Mission11", "งานเดิมๆ", 11, false, 4, false, 10, false]
+        static let level12 = ["Mission12", "งานเดิมๆ", 12, false, 4, false, 10, false]
+        static let level13 = ["Mission13", "งานเดิมๆ", 13, false, 4, false, 10, false]
+        static let level14 = ["Mission14", "งานเดิมๆ", 14, false, 4, false, 10, false]
+        
+        static let level15 = ["Mission15", "งานยาก", 15, true, 4, true, 10, true] // index 14
         
         
-        static let levelList = [level1]
+        static let levelList = [level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, level14, level15]
     }
 
 }

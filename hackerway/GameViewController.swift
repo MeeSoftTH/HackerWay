@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
 
-class GameViewController: UIViewController, updateLabelProtocal {
+class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelProtocal {
     
     @IBOutlet var box1: UILabel!
     @IBOutlet var box2: UILabel!
@@ -23,12 +24,17 @@ class GameViewController: UIViewController, updateLabelProtocal {
     @IBOutlet var keyPad: UIView!
     @IBOutlet var hitLabel: UILabel!
     
+    var soundPlayer:AVAudioPlayer = AVAudioPlayer()
+    var mode: String = defind.variable.currentMode
+    var gameMode = "STORY"
+    var challengeMode = "CHALLENGE"
+    var randomMode = "RANDOM"
+    
     var meterTimer:NSTimer!
     var counter: Int = 180
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        defind.variable.deadCouter = 10
     }
     
     @IBAction func exit(sender: UIBarButtonItem) {
@@ -36,12 +42,14 @@ class GameViewController: UIViewController, updateLabelProtocal {
     }
     
     override func viewWillAppear(animated: Bool) {
-        time.text = "Remaining: \(String(counter)) s"
+        
         counter = 180
+        defind.variable.deadCouter = 10
+        time.text = "Remaining: \(String(counter)) s"
+        
         deadCouter.text = String(defind.variable.deadCouter)
-        delay(0.5){
-            self.start()
-        }
+        meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,15 +57,10 @@ class GameViewController: UIViewController, updateLabelProtocal {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func start() {
-        meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
-    }
-    
     func youWin() {
-        
-        var alert = UIAlertController(title: "Congraturation", message: "You win!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction!) in
+        self.hitLabel.text = "Correct ••••"
+        let alert = UIAlertController(title: "Congraturation", message: "You win!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
             self.meterTimer.invalidate()
             self.delay(0.5){
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -67,17 +70,41 @@ class GameViewController: UIViewController, updateLabelProtocal {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func haveLife(lLabel: Int, rLabel: Int) {
-        self.hitLabel.text = "Current \(String(lLabel)) answer. \n Current \(String(rLabel)) positions."
+    func haveLife(currect: Int) {
+        
+        if currect == 0 {
+            self.hitLabel.text = ""
+            
+        }else if currect == 1 {
+            self.hitLabel.text = "Correct •"
+            
+        }else if currect == 2 {
+            self.hitLabel.text = "Correct ••"
+            
+        }else if currect == 3 {
+            self.hitLabel.text = "Correct •••"
+            
+        }else if currect == 4 {
+            self.hitLabel.text = "Correct ••••"
+            
+        }
+        
         self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
         self.reset()
-        
     }
     
     func noHaveLife() {
         self.meterTimer.invalidate()
-        var alert = UIAlertController(title: "You are dead", message: "Try again later", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .Default, handler: { (action: UIAlertAction!) in
+        playSound()
+        
+        var text: String = "Try again later"
+        
+        if mode == challengeMode {
+            text = "Your friend is win!"
+        }
+        
+        let alert = UIAlertController(title: "GAME OVER", message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .Default, handler: { (action: UIAlertAction) in
             
             self.delay(0.5){
                 defind.variable.deadCouter = 10
@@ -110,7 +137,7 @@ class GameViewController: UIViewController, updateLabelProtocal {
     
     
     func keyPadIndex(index: Int){
-        var text = String(index)
+        let text = String(index)
         
         if box1.text == "" {
             box1.text = text
@@ -126,20 +153,29 @@ class GameViewController: UIViewController, updateLabelProtocal {
     func lifeCheck(rightP: Int, rightA: Int) {
         meterTimer.invalidate()
         if rightP < 4{
-            var yourLife = defind.variable.deadCouter - 1
+            let yourLife = defind.variable.deadCouter - 1
             defind.variable.deadCouter = yourLife
             self.deadCouter.text = String(yourLife)
             
             delay(0.1) {
                 if(yourLife > 0){
-                    self.haveLife(rightA, rLabel: rightP)
+                    self.haveLife(rightP)
                 }else {
-                    self.noHaveLife()
-                    self.hitLabel.text = ""
+                    if self.mode == self.randomMode {
+                        defind.variable.currentLevel = 0
+                    }else {
+                        self.noHaveLife()
+                        self.hitLabel.text = ""}
                 }
             }
             
         }else if rightP >= 4 {
+            if mode == gameMode {
+                defind.variable.currentLevel += 1
+            }else if mode == challengeMode || mode == randomMode {
+                defind.variable.currentLevel = 0
+            }
+            
             youWin()
         }
     }
@@ -149,5 +185,37 @@ class GameViewController: UIViewController, updateLabelProtocal {
         box2.text = ""
         box3.text = ""
         box4.text = ""
+    }
+    
+    func playSound() {
+        
+        var error: NSError?
+        
+        let resourcePath = NSBundle.mainBundle().URLForResource("ding", withExtension: "WAV")
+        
+        soundPlayer = try! AVAudioPlayer(contentsOfURL: resourcePath!)
+        let session:AVAudioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch let error1 as NSError {
+            error = error1
+            print("could not set output to speaker")
+            if let e = error {
+                print(e.localizedDescription)
+            }
+        }
+        
+        if let err = error {
+            print("AVAudioPlayer error: \(err.localizedDescription)")
+        } else {
+            print("AVAudioPlayer Play: \(resourcePath)")
+            soundPlayer.stop()
+            soundPlayer.delegate = self
+            soundPlayer.volume = 1.0
+            soundPlayer.prepareToPlay()
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            soundPlayer.play()
+        }
     }
 }

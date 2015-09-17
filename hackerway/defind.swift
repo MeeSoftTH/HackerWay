@@ -14,6 +14,8 @@ class defind {
         static var setKeyViewActivate: setKeyLabelProtocal! = nil
         static var currentView: String = ""
         
+        static var score: Int = 0
+        
         static var deadCouter: Int = 10
         static var currentMissionTitle: String = ""
         static var currentMissionLabel: String = ""
@@ -30,8 +32,6 @@ class defind {
         
         static let challengeTitle = "Challenge mode"
         static let challengeLabel = ""
-        
-        
     }
     
     struct datas {

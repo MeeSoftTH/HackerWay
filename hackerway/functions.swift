@@ -16,7 +16,7 @@ class functions {
         let currentData = getLevelDatas()
         var defaultNumber = defind.datas.defaultNumber
         
-        println("Array Datas = \(currentData)")
+        print("Array Datas = \(currentData)")
         
         let title: String = currentData[0] as! String
         let label: String = currentData[1] as! String
@@ -56,7 +56,7 @@ class functions {
                 let randomArray = Int(arc4random_uniform(UInt32(randomNumber.count)))
                 let newData = randomNumber[randomArray]
                 randomNumber.append(newData)
-                println("Fill int = \(randomNumber)")
+                print("Fill int = \(randomNumber)")
             }
         }
         
@@ -67,17 +67,17 @@ class functions {
             let randomArray2 = Int(arc4random_uniform(UInt32(randomNumber.count)))
             let newData2 = randomNumber[randomArray2]
             defind.datas.storyKey.append(String(newData2))
-            println("Push data = \(newData2)")
+            print("Push data = \(newData2)")
             let indexOfArray = findIndexOfArry(randomNumber, dataNumber: newData2)
             randomNumber.removeAtIndex(indexOfArray)
         }
-        println("Mission created = \(defind.datas.storyKey)")
+        print("Mission created = \(defind.datas.storyKey)")
     }
     
     func findIndexOfArry(arrayNumber: NSArray, dataNumber: Int) -> Int {
         var index = 0
         for var i: Int = 0; i < arrayNumber.count; i++ {
-            var currentInt: Int = arrayNumber[i] as! Int
+            let currentInt: Int = arrayNumber[i] as! Int
             
             if dataNumber == currentInt {
                 index = i
@@ -88,25 +88,25 @@ class functions {
     }
     
     func getLevelDatas() -> NSArray{
-        var data: NSArray = setData()
+        let data: NSArray = setData()
         return data
     }
     
     func checkCurrent()-> Int {
-        var currentLevel = defind.variable.currentLevel
+        let currentLevel = defind.variable.currentLevel > levelDefind.params.levelList.count - 1 ? levelDefind.params.levelList.count - 1 : defind.variable.currentLevel
         return currentLevel
     }
     
     func setData() -> NSArray {
         var dataList = levelDefind.params.levelList
-        var levelIndex: Int = checkCurrent()
-        var data = dataList[levelIndex]
+        let levelIndex: Int = checkCurrent()
+        let data = dataList[levelIndex]
         
         return data
     }
     
     func randomIndex(end: Int, start: Int)-> Int {
-        var randomNumber = arc4random_uniform(UInt32(end)) + UInt32(start)
+        let randomNumber = arc4random_uniform(UInt32(end)) + UInt32(start)
         return Int(randomNumber)
     }
 }

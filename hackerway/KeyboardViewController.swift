@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
@@ -19,10 +20,12 @@ protocol setKeyLabelProtocal {
     func keyPadIndex(index: Int)
 }
 
-class KeyboardViewController: UIViewController {
+class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     var updateLabel: updateLabelProtocal? = defind.variable.keyPadViewActivate
     var setKeyLabel: setKeyLabelProtocal? = defind.variable.setKeyViewActivate
+    
+    var soundPlayer:AVAudioPlayer = AVAudioPlayer()
     
     @IBOutlet var button00: UIButton!
     @IBOutlet var button01: UIButton!
@@ -47,8 +50,12 @@ class KeyboardViewController: UIViewController {
     var showFinger: Bool = false
     var buttonOn: Int = 10
     var isShuffle: Bool = false
+    
+    var updateText: Bool = true
+    
     var pNaRight: Int = 0
     var aRight: Int = 0
+    
     var mode: String = defind.variable.currentMode
     var inputCouting: Int = 0
     var isStart: Bool = true
@@ -63,6 +70,7 @@ class KeyboardViewController: UIViewController {
     
     var gameMode = "STORY"
     var challengeMode = "CHALLENGE"
+    var randomMode = "RANDOM"
     
     var currentView: String = ""
     
@@ -70,8 +78,8 @@ class KeyboardViewController: UIViewController {
         super.viewDidLoad()
         currentView = defind.variable.currentView
         
-        println("KeyPad ready")
-        println("Current view = \(currentView)")
+        print("KeyPad ready")
+        print("Current view = \(currentView)")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -86,9 +94,9 @@ class KeyboardViewController: UIViewController {
     
     func viewIsPresent() {
         
-        println("Mode is \(mode)")
+        print("Mode is \(mode)")
         
-        if mode == gameMode {
+        if mode == gameMode || mode == randomMode {
             functions().createMission()
             ansKey = defind.datas.storyKey
             multiply = defind.variable.multi
@@ -98,7 +106,7 @@ class KeyboardViewController: UIViewController {
             
             self.updateLabel?.missionLabel(defind.variable.currentMissionTitle, description: defind.variable.currentMissionLabel)
             
-            if showFinger {
+            if showFinger == true{
                 matching(guideMode)
             }
             
@@ -106,7 +114,7 @@ class KeyboardViewController: UIViewController {
                 randomButtonOn(buttonOn)
             }
             
-            if isShuffle {
+            if isShuffle  == true{
                 shuffle(defaultNumber)
             }
             
@@ -167,39 +175,49 @@ class KeyboardViewController: UIViewController {
     
     
     func switchMode(index: Int) {
-        if currentView == gameViewMode {
-            self.updateLabel?.keyPadIndex(index)
-            appendData(index)
-        }else if currentView == setKeyViewMode {
-            self.setKeyLabel?.keyPadIndex(index)
+        if updateText == true {
+            if currentView == gameViewMode {
+                self.updateLabel?.keyPadIndex(index)
+                appendData(index)
+            }else if currentView == setKeyViewMode {
+                self.setKeyLabel?.keyPadIndex(index)
+            }
         }
     }
     
     func appendData(index: Int) {
         
-        
-        if inputCouting < 5 {
-        var text = String(index)
-        self.userKey.append(text)
-        inputCouting += 1
+        if inputCouting < self.ansKey.count {
+            inputCouting += 1
+            let text = String(index)
+            self.userKey.append(text)
+        }else {
+            reset()
+
         }
         
-        
-        if inputCouting >= 4 {
+        if inputCouting == self.ansKey.count {
+            updateText = false
             delay(0.5) {
                 self.validateKey()
+                self.updateText = true
             }
+            
         }
     }
     
     func validateKey(){
-        println("user Key = \(self.userKey)")
-        println("ans Key = \(self.ansKey)")
+        print("user Key = \(self.userKey)")
+        print("ans Key = \(self.ansKey)")
+        
         //println("Summary = \(self.summary)")
         
         matching(matchMode)
         
         self.updateLabel?.lifeCheck(pNaRight, rightA: aRight)
+        if pNaRight > 0 {
+            playSound()
+        }
         delay(0.5) {
             self.reset()
         }
@@ -220,31 +238,30 @@ class KeyboardViewController: UIViewController {
             tempUserKey = self.ansKey
         }
         
-        
-        for var i: Int = 0; i < tempUserKey.count; i++ {
-            
-            if mode == matchMode {
-                if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[i]) != nil {
-                    pNaRight += 1
-                    //tempSumKey.append("* \(tempUserKey[i])")
+        for var i: Int = 0; i < tempAnsKey.count; i++ {
+            if tempUserKey.count == 4 {
+                if mode == matchMode {
+                    if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[i]) != nil {
+                        pNaRight += 1
+                        //tempSumKey.append("* \(tempUserKey[i])")
+                    }
+                    
+                    //tempSumKey.append(tempUserKey[i])
                 }
                 
-                //tempSumKey.append(tempUserKey[i])
-            }
-            
-            for var j: Int = 0; j < tempAnsKey.count; j++ {
-                if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[j]) != nil {
-                    if mode == matchMode {
-                        aRight += 1
+                for var j: Int = 0; j < tempAnsKey.count; j++ {
+                    if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[j]) != nil {
+                        if mode == matchMode {
+                            aRight += 1
+                        }
+                        self.rebuildFinger(Int(tempAnsKey[j])!)
+                        
+                        
+                        j = tempAnsKey.count
                     }
-                    self.rebuildFinger(tempAnsKey[j].toInt()!)
-                    
-                    
-                    j = tempAnsKey.count
                 }
             }
         }
-        
         
         
     }
@@ -262,16 +279,21 @@ class KeyboardViewController: UIViewController {
     
     func randomButtonOn(numOn: Int) {
         var ansButton = ansKey
-        var randomForFill = numOn - ansButton.count
+        let randomForFill = defind.datas.defaultNumber.count - numOn
         
         
         // remove ans key
+        
         for var i: Int = 0; i < ansButton.count; i++ {
-            defaultNumber.removeAtIndex(ansButton[i].toInt()!)
+            print(Int(ansButton[i]))
+            
+            let indexOfArray = findIndexOfArry(defaultNumber, dataNumber: Int(ansButton[i])!)
+            defaultNumber.removeAtIndex(indexOfArray)
         }
         
-        // random for disable button
+        print(defaultNumber)
         
+        // random for disable button
         for var i: Int = 0; i < randomForFill; i++ {
             let randomArray = Int(arc4random_uniform(UInt32(defaultNumber.count)))
             let index = defaultNumber[randomArray]
@@ -297,7 +319,7 @@ class KeyboardViewController: UIViewController {
             let indexOfArray = findIndexOfArry(tempNumber, dataNumber: index)
             tempNumber.removeAtIndex(indexOfArray)
             
-            let button = getButtonUI(index)
+            let button = getButtonUI(i)
             
             button.setTitle(String(index), forState: .Normal)
         }
@@ -307,7 +329,7 @@ class KeyboardViewController: UIViewController {
     func findIndexOfArry(arrayNumber: NSArray, dataNumber: Int) -> Int {
         var index = 0
         for var i: Int = 0; i < arrayNumber.count; i++ {
-            var currentInt: Int = arrayNumber[i] as! Int
+            let currentInt: Int = arrayNumber[i] as! Int
             
             if dataNumber == currentInt {
                 index = i
@@ -328,9 +350,9 @@ class KeyboardViewController: UIViewController {
             button.enabled = false
         }
         
-        println("MODE = \(mode)")
-        println("Image = \(image)")
-        println("Button = \(button)")
+        print("MODE = \(mode)")
+        print("Image = \(image)")
+        print("Button = \(button)")
         
         button.setBackgroundImage(UIImage(named: image), forState: UIControlState.Normal)
     }
@@ -366,8 +388,49 @@ class KeyboardViewController: UIViewController {
         for var i: Int = 0; i < defind.datas.defaultNumber.count; i++ {
             let button = getButtonUI(i)
             button.enabled = true
+            
         }
+        
+    }
     
+    func playSound() {
+        
+        var error: NSError?
+        
+        let resourcePath = NSBundle.mainBundle().URLForResource("ding", withExtension: "WAV")
+        
+        soundPlayer = try! AVAudioPlayer(contentsOfURL: resourcePath!)
+        let session:AVAudioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch let error1 as NSError {
+            error = error1
+            print("could not set output to speaker")
+            if let e = error {
+                print(e.localizedDescription)
+            }
+        }
+        
+        if let err = error {
+            print("AVAudioPlayer error: \(err.localizedDescription)")
+        } else {
+            print("AVAudioPlayer Play: \(resourcePath)")
+            soundPlayer.stop()
+            soundPlayer.delegate = self
+            soundPlayer.volume = 1.0
+            soundPlayer.prepareToPlay()
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            soundPlayer.play()
+        }
+    }
+    
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        
+        pNaRight -= 1
+        if self.pNaRight > 0 {
+            playSound()
+        }
     }
     
     func delay(delay:Double, closure:()->()) {

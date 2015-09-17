@@ -36,7 +36,7 @@ class SetKeyViewController: UIViewController, setKeyLabelProtocal {
     
     @IBAction func setBunnon(sender: UIButton) {
         setKey()
-        var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
         defind.variable.currentView = gameView
         defind.variable.keyPadViewActivate = vc
         delay(1.0){
@@ -50,7 +50,7 @@ class SetKeyViewController: UIViewController, setKeyLabelProtocal {
     }
     
     func addLabel(index: Int) {
-        var text = String(index)
+        let text = String(index)
         
         if box1.text == "" {
             box1.text = text

@@ -30,7 +30,7 @@ class MenuViewController: UIViewController {
     @IBAction func storyButton(sender: UIButton) {
         defind.variable.currentMode = "STORY"
         
-        var vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
         defind.variable.keyPadViewActivate = vc
         defind.variable.currentView = gameView
         self.presentViewController(vc, animated: true, completion: nil)
@@ -40,17 +40,33 @@ class MenuViewController: UIViewController {
     @IBAction func challengeButton(sender: UIButton) {
         defind.variable.currentMode = "CHALLENGE"
         defind.variable.currentView = setView
-        var vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as! SetKeyViewController
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as! SetKeyViewController
         defind.variable.setKeyViewActivate = vc
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @IBAction func randomButton(sender: UIButton) {
+        defind.variable.currentMode = "RANDOM"
+        let randomLevel = randomIndex(levelDefind.params.levelList.count, start: 0)
+        defind.variable.currentLevel = randomLevel
+        
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
+        defind.variable.keyPadViewActivate = vc
+        defind.variable.currentView = gameView
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+
     func getScore()-> String {
         let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
         let hightScore = userSetting.integerForKey("hiscore")
-        var scoreLabel: String = "Hight score : \(String(hightScore))"
+        let scoreLabel: String = "Hight score : \(String(hightScore))"
         
         return scoreLabel
+    }
+    
+    func randomIndex(end: Int, start: Int)-> Int {
+        let randomNumber = arc4random_uniform(UInt32(end)) + UInt32(start)
+        return Int(randomNumber)
     }
 }
 
