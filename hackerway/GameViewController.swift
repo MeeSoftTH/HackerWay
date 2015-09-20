@@ -9,7 +9,13 @@
 import UIKit
 import AVFoundation
 
-class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelProtocal {
+protocol updateScoreProtocal {
+    func updateScore()
+}
+
+class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelProtocal, UICheckProtocal {
+    
+    var update: updateScoreProtocal? = nil
     
     @IBOutlet var box1: UILabel!
     @IBOutlet var box2: UILabel!
@@ -32,6 +38,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     var meterTimer:NSTimer!
     var counter: Int = 180
+    var summaryAns = [String: [Int]]()
+    
+    var isClose: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +51,13 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
+        if isClose == true {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        self.hitLabel.text = ""
         counter = 180
         defind.variable.deadCouter = 10
         time.text = "Remaining: \(String(counter)) s"
@@ -119,7 +134,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             time.text = "Remaining: \(String(counter--)) s"
         }else if counter < 0 {
             self.meterTimer.invalidate()
-            noHaveLife()
+            //noHaveLife()
+            self.summaryView(summaryAns, title: "Game Over")
         }
     }
     
@@ -150,8 +166,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         }
     }
     
-    func lifeCheck(rightP: Int, rightA: Int) {
+    func lifeCheck(rightP: Int, rightA: Int, summary: [String: [Int]]) {
         meterTimer.invalidate()
+        summaryAns = summary
         if rightP < 4{
             let yourLife = defind.variable.deadCouter - 1
             defind.variable.deadCouter = yourLife
@@ -163,20 +180,20 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
                 }else {
                     if self.mode == self.randomMode {
                         defind.variable.currentLevel = 0
+                        //self.noHaveLife()
+                        
                     }else {
-                        self.noHaveLife()
-                        self.hitLabel.text = ""}
+                        //self.noHaveLife()
+                        self.hitLabel.text = ""
+                    }
+                    self.summaryView(summary, title: "Game Over")
                 }
+                
             }
             
         }else if rightP >= 4 {
-            if mode == gameMode {
-                defind.variable.currentLevel += 1
-            }else if mode == challengeMode || mode == randomMode {
-                defind.variable.currentLevel = 0
-            }
-            
-            youWin()
+            self.summaryView(summary, title: "Congraturation")
+            //youWin()
         }
     }
     
@@ -216,6 +233,23 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             soundPlayer.prepareToPlay()
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             soundPlayer.play()
+        }
+    }
+    
+    func summaryView(summary: [String: [Int]], title: String) {
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! SummaryViewController
+        vc.summaryDic = summary
+        vc.timeCounting = counter
+        vc.missionStatus2 = title
+        vc.uiCheck = self
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func  UICheck(isClose: Bool) {
+        
+        if isClose == true {
+            self.isClose = true
         }
     }
 }

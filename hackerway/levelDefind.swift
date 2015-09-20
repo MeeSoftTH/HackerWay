@@ -18,7 +18,7 @@ class levelDefind {
         static let level4 = ["Mission4", "มีปุ่มเสียเยอะ", 4, true, 4, false, 4, false]
         static let level5 = ["Mission5", "มีปุ่มเสียเยอะ 2", 5, true, 3, false, 4, false]
         static let level6 = ["Mission6", "ซ้อม", 6, true, 5, false, 5, false]
-        static let level7 = ["Mission7", "หัซ้อม 2", 7, true, 6, false, 6, false]
+        static let level7 = ["Mission7", "ซ้อม 2", 7, true, 6, false, 6, false]
         static let level8 = ["Mission8", "ซ้อม 3", 8, true, 7, false, 7, false]
         static let level9 = ["Mission9", "Turn Pro", 9, true, 2, false, 10, false]
         static let level10 = ["Mission10", "เริ่มงาน", 10, true, 4, false, 10, false]

@@ -18,9 +18,15 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        score.text = getScore()
+
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        score.text = getScore()
+
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

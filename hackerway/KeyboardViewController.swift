@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
-    func lifeCheck(rightP: Int, rightA: Int)
+    func lifeCheck(rightP: Int, rightA: Int, summary: [String: [Int]])
     func missionLabel(title: String, description: String)
     func reset()
 }
@@ -43,7 +43,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     var userKey = [String]()
     var ansKey = [String]()
-    //var summary = [String]() // dicionary
+    var summaryDic = [String: [Int]]() // dicionary
     
     var multiply: Int = 1
     var strict: Bool = false
@@ -83,6 +83,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         resetState()
         viewIsPresent()
     }
@@ -207,14 +208,15 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func validateKey(){
-        print("user Key = \(self.userKey)")
-        print("ans Key = \(self.ansKey)")
-        
-        //println("Summary = \(self.summary)")
-        
         matching(matchMode)
         
-        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight)
+        print("user Key = \(self.userKey)")
+        print("ans Key = \(self.ansKey)")
+        print("Summary = \(self.summaryDic)")
+
+        
+        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, summary: self.summaryDic)
+        
         if pNaRight > 0 {
             playSound()
         }
@@ -224,10 +226,11 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func matching(mode: String) {
+        
         var tempAnsKey = [String]()
         var tempUserKey = [String]()
         
-        //var tempSumKey = [String]()
+        var tempSumKey = [Int]()
         
         if mode == matchMode {
             tempAnsKey = self.ansKey
@@ -243,10 +246,10 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
                 if mode == matchMode {
                     if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[i]) != nil {
                         pNaRight += 1
-                        //tempSumKey.append("* \(tempUserKey[i])")
+                        tempSumKey.append(Int(tempUserKey[i])! + 10)
+                    }else {
+                        tempSumKey.append(Int(tempUserKey[i])!)
                     }
-                    
-                    //tempSumKey.append(tempUserKey[i])
                 }
                 
                 for var j: Int = 0; j < tempAnsKey.count; j++ {
@@ -263,14 +266,14 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             }
         }
         
-        
+        let turnCheck = 11 - defind.variable.deadCouter
+        summaryDic[String(turnCheck)] = tempSumKey        
     }
     
     func reset() {
-        userKey = [String]()
         self.inputCouting = 0
-        
         self.updateLabel?.reset()
+        self.userKey = [String]()
     }
     
     func rebuildFinger(index: Int){
@@ -385,12 +388,12 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func resetState() {
+        summaryDic = [String: [Int]]()
         for var i: Int = 0; i < defind.datas.defaultNumber.count; i++ {
             let button = getButtonUI(i)
             button.enabled = true
-            
+            button.setBackgroundImage(UIImage(named: ""), forState: UIControlState.Normal)
         }
-        
     }
     
     func playSound() {
