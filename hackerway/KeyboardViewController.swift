@@ -56,6 +56,8 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     var pNaRight: Int = 0
     var aRight: Int = 0
     
+    var playerCounting: Int = 0
+    
     var mode: String = defind.variable.currentMode
     var inputCouting: Int = 0
     var isStart: Bool = true
@@ -85,6 +87,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         resetState()
+        reset()
         viewIsPresent()
     }
     
@@ -192,9 +195,6 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             inputCouting += 1
             let text = String(index)
             self.userKey.append(text)
-        }else {
-            reset()
-
         }
         
         if inputCouting == self.ansKey.count {
@@ -213,16 +213,15 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         print("user Key = \(self.userKey)")
         print("ans Key = \(self.ansKey)")
         print("Summary = \(self.summaryDic)")
+        print("pNaRight = \(pNaRight)")
 
         
         self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, summary: self.summaryDic)
         
         if pNaRight > 0 {
-            playSound()
+            self.playSound()
         }
-        delay(0.5) {
             self.reset()
-        }
     }
     
     func matching(mode: String) {
@@ -245,8 +244,8 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             if tempUserKey.count == 4 {
                 if mode == matchMode {
                     if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[i]) != nil {
-                        pNaRight += 1
                         tempSumKey.append(Int(tempUserKey[i])! + 10)
+                        pNaRight += 1
                     }else {
                         tempSumKey.append(Int(tempUserKey[i])!)
                     }
@@ -254,13 +253,8 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
                 
                 for var j: Int = 0; j < tempAnsKey.count; j++ {
                     if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[j]) != nil {
-                        if mode == matchMode {
-                            aRight += 1
-                        }
+                        
                         self.rebuildFinger(Int(tempAnsKey[j])!)
-                        
-                        
-                        j = tempAnsKey.count
                     }
                 }
             }
@@ -271,8 +265,14 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func reset() {
+        self.pNaRight = 0
+        self.aRight = 0
+        
         self.inputCouting = 0
+        
+        delay(0.1){
         self.updateLabel?.reset()
+        }
         self.userKey = [String]()
     }
     
@@ -398,6 +398,8 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     func playSound() {
         
+        playerCounting = pNaRight
+        
         var error: NSError?
         
         let resourcePath = NSBundle.mainBundle().URLForResource("ding", withExtension: "WAV")
@@ -430,9 +432,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         
-        pNaRight -= 1
-        if self.pNaRight > 0 {
-            playSound()
+        playerCounting -= 1
+        if self.playerCounting > 0 {
+           self.playSound()
         }
     }
     
