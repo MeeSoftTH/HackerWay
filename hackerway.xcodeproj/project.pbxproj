@@ -23,6 +23,14 @@
 		6BAF81011B94107B00096579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BAF81001B94107B00096579 /* Images.xcassets */; };
 		6BAF81041B94107B00096579 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAF81021B94107B00096579 /* LaunchScreen.xib */; };
 		6BAF81101B94107B00096579 /* hackerwayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF810F1B94107B00096579 /* hackerwayTests.swift */; };
+		6BDA5E371BB0017000E51E52 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E361BB0016F00E51E52 /* AVFoundation.framework */; };
+		6BDA5E391BB001A000E51E52 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E381BB001A000E51E52 /* CoreMedia.framework */; };
+		6BDA5E3B1BB001B500E51E52 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E3A1BB001B500E51E52 /* SystemConfiguration.framework */; };
+		6BDA5E3D1BB001C100E51E52 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E3C1BB001C100E51E52 /* StoreKit.framework */; };
+		6BDA5E3F1BB001D400E51E52 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E3E1BB001D400E51E52 /* CoreTelephony.framework */; };
+		6BDA5E411BB001DE00E51E52 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E401BB001DE00E51E52 /* AdSupport.framework */; };
+		6BDA5E451BB0022500E51E52 /* UnityAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDA5E431BB0022400E51E52 /* UnityAds.framework */; };
+		6BDA5E471BB0060300E51E52 /* UnityAds.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA5E461BB0060300E51E52 /* UnityAds.bundle */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +64,15 @@
 		6BAF81091B94107B00096579 /* hackerwayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hackerwayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAF810E1B94107B00096579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BAF810F1B94107B00096579 /* hackerwayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackerwayTests.swift; sourceTree = "<group>"; };
+		6BDA5E351BAFF3AB00E51E52 /* hackerway-Bridding-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "hackerway-Bridding-Header.h"; sourceTree = "<group>"; };
+		6BDA5E361BB0016F00E51E52 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		6BDA5E381BB001A000E51E52 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		6BDA5E3A1BB001B500E51E52 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6BDA5E3C1BB001C100E51E52 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6BDA5E3E1BB001D400E51E52 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		6BDA5E401BB001DE00E51E52 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		6BDA5E431BB0022400E51E52 /* UnityAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnityAds.framework; sourceTree = "<group>"; };
+		6BDA5E461BB0060300E51E52 /* UnityAds.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UnityAds.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +80,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BDA5E451BB0022500E51E52 /* UnityAds.framework in Frameworks */,
+				6BDA5E411BB001DE00E51E52 /* AdSupport.framework in Frameworks */,
+				6BDA5E3F1BB001D400E51E52 /* CoreTelephony.framework in Frameworks */,
+				6BDA5E3D1BB001C100E51E52 /* StoreKit.framework in Frameworks */,
+				6BDA5E3B1BB001B500E51E52 /* SystemConfiguration.framework in Frameworks */,
+				6BDA5E391BB001A000E51E52 /* CoreMedia.framework in Frameworks */,
+				6BDA5E371BB0017000E51E52 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +135,15 @@
 		6BAF80EB1B94107B00096579 = {
 			isa = PBXGroup;
 			children = (
+				6BDA5E461BB0060300E51E52 /* UnityAds.bundle */,
+				6BDA5E431BB0022400E51E52 /* UnityAds.framework */,
+				6BDA5E401BB001DE00E51E52 /* AdSupport.framework */,
+				6BDA5E3E1BB001D400E51E52 /* CoreTelephony.framework */,
+				6BDA5E3C1BB001C100E51E52 /* StoreKit.framework */,
+				6BDA5E3A1BB001B500E51E52 /* SystemConfiguration.framework */,
+				6BDA5E381BB001A000E51E52 /* CoreMedia.framework */,
+				6BDA5E361BB0016F00E51E52 /* AVFoundation.framework */,
+				6BDA5E351BAFF3AB00E51E52 /* hackerway-Bridding-Header.h */,
 				6BAF80F61B94107B00096579 /* hackerway */,
 				6BAF810C1B94107B00096579 /* hackerwayTests */,
 				6BAF80F51B94107B00096579 /* Products */,
@@ -252,6 +285,7 @@
 				6BAF81041B94107B00096579 /* LaunchScreen.xib in Resources */,
 				6B00BFC71BAABD660063B60F /* ding.WAV in Resources */,
 				6BAF81011B94107B00096579 /* Images.xcassets in Resources */,
+				6BDA5E471BB0060300E51E52 /* UnityAds.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,10 +441,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = hackerway/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "th.co.meesoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/pawarit.b/Workspace/IOS_Workspace/hackerway/hackerway-Bridding-Header.h";
 			};
 			name = Debug;
 		};
@@ -418,10 +457,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = hackerway/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "th.co.meesoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/pawarit.b/Workspace/IOS_Workspace/hackerway/hackerway-Bridding-Header.h";
 			};
 			name = Release;
 		};

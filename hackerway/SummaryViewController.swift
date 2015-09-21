@@ -12,7 +12,7 @@ protocol UICheckProtocal {
 
 import UIKit
 
-class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UnityAdsDelegate {
     
     var uiCheck: UICheckProtocal? = nil
     
@@ -45,6 +45,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var actionNext: String = "NEXT"
     var actionTry: String = "TRY"
     
+    var adsId: String = "76395"
+    
     var arryOfDatas:[SummaryData] = [SummaryData]()
     
     override func viewDidLoad() {
@@ -58,6 +60,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if missionStatus2 == "Game Over" && mode == gameMode{
             tryAgain.setTitle("Watch", forState: .Normal)
+            UnityAds.sharedInstance().delegate = self
+            UnityAds.sharedInstance().startWithGameId(adsId)
         }
         
         
@@ -95,6 +99,13 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func tryAgainButton(sender: UIButton) {
         
         if sender.titleLabel?.text == "Watch" {
+            
+            UnityAds.sharedInstance().setViewController(self)
+            UnityAds.sharedInstance().setZone("rewardedVideoZone")
+            
+            if UnityAds.sharedInstance().canShowAds(){
+                UnityAds.sharedInstance().show()
+            }
             
         }else {
             if mode == gameMode {
@@ -206,5 +217,11 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func unityAdsVideoCompleted(rewardItemKey: String, skipped: Bool) -> Void{
+        if !skipped {
+            tryAgain.setTitle("Try again", forState: .Normal)
+        }
     }
 }

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,31 +11,65 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2558 Pawarit Bunrith. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yax-Nc-kkq">
+                    <rect key="frame" x="120" y="71" width="240" height="240"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meesoft_logo-1" translatesAutoresizingMaskIntoConstraints="NO" id="tuv-Ac-9pc">
+                            <rect key="frame" x="5" y="95" width="229" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="229" id="CQK-ew-5Ww"/>
+                                <constraint firstAttribute="height" constant="50" id="wNf-BD-Z3A"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="tuv-Ac-9pc" firstAttribute="centerY" secondItem="yax-Nc-kkq" secondAttribute="centerY" id="Olv-cZ-6Ue"/>
+                        <constraint firstItem="tuv-Ac-9pc" firstAttribute="top" secondItem="yax-Nc-kkq" secondAttribute="top" constant="95" id="SED-Nz-uBW"/>
+                        <constraint firstAttribute="trailing" secondItem="tuv-Ac-9pc" secondAttribute="trailing" constant="6" id="Vu0-Ro-2j1"/>
+                        <constraint firstItem="tuv-Ac-9pc" firstAttribute="leading" secondItem="yax-Nc-kkq" secondAttribute="leading" constant="5" id="W4a-NP-vbu"/>
+                        <constraint firstAttribute="centerX" secondItem="tuv-Ac-9pc" secondAttribute="centerX" constant="0.5" id="qey-sN-R1v"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="SED-Nz-uBW"/>
+                        </mask>
+                    </variation>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MeeSoft Co., Ltd. 2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
                     <rect key="frame" x="20" y="439" width="441" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hackerway" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="20" y="140" width="441" height="43"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
-                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
-                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
-                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="17w-lX-lHG"/>
+                <constraint firstItem="yax-Nc-kkq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="71" id="53K-e2-YnA"/>
+                <constraint firstAttribute="centerY" secondItem="yax-Nc-kkq" secondAttribute="centerY" constant="49" id="7lM-e0-hDy"/>
+                <constraint firstAttribute="centerX" secondItem="yax-Nc-kkq" secondAttribute="centerX" id="8ph-rE-iGq"/>
+                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="CAg-PL-qJc"/>
+                <constraint firstAttribute="bottom" secondItem="yax-Nc-kkq" secondAttribute="bottom" constant="169" id="NYb-Rp-ady"/>
+                <constraint firstItem="yax-Nc-kkq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="120" id="Ns2-Uz-Ds2"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Y9T-ql-Kpa"/>
+                <constraint firstItem="yax-Nc-kkq" firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="Yfu-Vy-BVs"/>
+                <constraint firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" constant="19" id="qgu-hW-Zfe"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ulx-WP-u2D"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="Ns2-Uz-Ds2"/>
+                    <exclude reference="Yfu-Vy-BVs"/>
+                    <exclude reference="ulx-WP-u2D"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
+    <resources>
+        <image name="meesoft_logo-1" width="192" height="40"/>
+    </resources>
 </document>

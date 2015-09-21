@@ -47,6 +47,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     }
     
     @IBAction func exit(sender: UIBarButtonItem) {
+        self.meterTimer.invalidate()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
