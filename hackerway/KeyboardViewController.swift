@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
@@ -20,12 +19,10 @@ protocol setKeyLabelProtocal {
     func keyPadIndex(index: Int)
 }
 
-class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
+class KeyboardViewController: UIViewController {
     
     var updateLabel: updateLabelProtocal? = defind.variable.keyPadViewActivate
     var setKeyLabel: setKeyLabelProtocal? = defind.variable.setKeyViewActivate
-    
-    var soundPlayer:AVAudioPlayer = AVAudioPlayer()
     
     @IBOutlet var button00: UIButton!
     @IBOutlet var button01: UIButton!
@@ -51,7 +48,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     var buttonOn: Int = 10
     var isShuffle: Bool = false
     
-    var currentLevel: Int = defind.variable.currentLevel
+    var currentLevel: Int = 0
     var lastLevel: Int = 0
     
     var updateText: Bool = true
@@ -91,14 +88,14 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         reset()
         summaryDic = [String: [Int]]()
         
+        currentLevel = defind.variable.currentLevel
+        
         print("Current = \(currentLevel) : Last = \(lastLevel)")
         
         if currentLevel > lastLevel && mode == gameMode{
             resetState()
             viewIsPresent()
-        }
-        
-        if mode == challengeMode {
+        }else if mode == challengeMode {
             resetState()
         }else if mode == randomMode {
             resetState()

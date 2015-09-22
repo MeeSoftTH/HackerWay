@@ -65,15 +65,16 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             defind.variable.currentLevel = 0
             defind.variable.score = 0
             self.dismissViewControllerAnimated(true, completion: nil)
+        }else {
+            
+            self.hitLabel.text = ""
+            counter = 180
+            defind.variable.deadCouter = 10
+            time.text = "Remaining: \(String(counter)) s"
+            
+            deadCouter.text = String(defind.variable.deadCouter)
+            meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
         }
-        
-        self.hitLabel.text = ""
-        counter = 180
-        defind.variable.deadCouter = 10
-        time.text = "Remaining: \(String(counter)) s"
-        
-        deadCouter.text = String(defind.variable.deadCouter)
-        meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
         
     }
     
@@ -106,6 +107,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     }
     
     func updateCounter() {
+        
         if counter >= 0 {
             time.text = "Remaining: \(String(counter--)) s"
         }else if counter < 0 {
@@ -186,7 +188,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             delay(0.2){
                 self.playSound()
             }
-            
             self.summaryView(summary, title: "Congraturation", retry: 0)
             //youWin()
         }
