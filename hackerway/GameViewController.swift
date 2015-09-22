@@ -40,6 +40,10 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     var counter: Int = 180
     var summaryAns = [String: [Int]]()
     
+    var retry: Int = 0
+    
+    var playerCounting: Int = 0
+    
     var isClose: Bool = false
     
     override func viewDidLoad() {
@@ -48,6 +52,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     @IBAction func exit(sender: UIBarButtonItem) {
         self.meterTimer.invalidate()
+        defind.variable.currentLevel = 0
+        defind.variable.score = 0
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -55,6 +62,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         super.viewWillAppear(animated)
         
         if isClose == true {
+            defind.variable.currentLevel = 0
+            defind.variable.score = 0
             self.dismissViewControllerAnimated(true, completion: nil)
         }
         
@@ -71,19 +80,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func youWin() {
-        self.hitLabel.text = "Correct ••••"
-        let alert = UIAlertController(title: "Congraturation", message: "You win!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
-            self.meterTimer.invalidate()
-            self.delay(0.5){
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-        }))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func haveLife(currect: Int) {
@@ -109,34 +105,14 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         self.reset()
     }
     
-    func noHaveLife() {
-        self.meterTimer.invalidate()
-        playSound()
-        
-        var text: String = "Try again later"
-        
-        if mode == challengeMode {
-            text = "Your friend is win!"
-        }
-        
-        let alert = UIAlertController(title: "GAME OVER", message: text, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .Default, handler: { (action: UIAlertAction) in
-            
-            self.delay(0.5){
-                defind.variable.deadCouter = 10
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
     func updateCounter() {
         if counter >= 0 {
             time.text = "Remaining: \(String(counter--)) s"
         }else if counter < 0 {
             self.meterTimer.invalidate()
             //noHaveLife()
-            self.summaryView(summaryAns, title: "Game Over")
+            counter = 0
+            self.summaryView(summaryAns, title: "Game Over", retry: retry++)
         }
     }
     
@@ -151,7 +127,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         status.text = description
         
     }
-    
     
     func keyPadIndex(index: Int){
         let text = String(index)
@@ -171,13 +146,21 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         meterTimer.invalidate()
         summaryAns = summary
         if rightP < 4{
-            let yourLife = defind.variable.deadCouter - 1
+            let yourLife = defind.variable.deadCouter < 0 ? defind.variable.deadCouter : defind.variable.deadCouter - 1
             defind.variable.deadCouter = yourLife
             self.deadCouter.text = String(yourLife)
             
             delay(0.1) {
                 if(yourLife > 0){
                     self.haveLife(rightP)
+                    
+                    if rightP > 0 {
+                        self.playerCounting = rightP
+                        self.delay(0.2){
+                            self.playSound()
+                        }
+                    }
+                    
                 }else {
                     if self.mode == self.randomMode {
                         defind.variable.currentLevel = 0
@@ -187,13 +170,23 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
                         //self.noHaveLife()
                         self.hitLabel.text = ""
                     }
-                    self.summaryView(summary, title: "Game Over")
+                    
+                    self.playSound()
+                    
+                    self.summaryView(summary, title: "Game Over", retry: self.retry++)
                 }
                 
             }
             
         }else if rightP >= 4 {
-            self.summaryView(summary, title: "Congraturation")
+            
+            playerCounting = 0
+            
+            delay(0.2){
+                self.playSound()
+            }
+            
+            self.summaryView(summary, title: "Congraturation", retry: 0)
             //youWin()
         }
     }
@@ -237,11 +230,21 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         }
     }
     
-    func summaryView(summary: [String: [Int]], title: String) {
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        
+        playerCounting -= 1
+        if self.playerCounting > 0 {
+            self.playSound()
+        }
+    }
+    
+    
+    func summaryView(summary: [String: [Int]], title: String, retry: Int) {
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! SummaryViewController
         vc.summaryDic = summary
         vc.timeCounting = counter
         vc.missionStatus2 = title
+        vc.retry = retry
         vc.uiCheck = self
         
         self.presentViewController(vc, animated: true, completion: nil)
@@ -252,5 +255,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         if isClose == true {
             self.isClose = true
         }
+    }
+    
+    func changeValue() {
+        retry = 0
     }
 }

@@ -51,12 +51,13 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     var buttonOn: Int = 10
     var isShuffle: Bool = false
     
+    var currentLevel: Int = defind.variable.currentLevel
+    var lastLevel: Int = 0
+    
     var updateText: Bool = true
     
     var pNaRight: Int = 0
     var aRight: Int = 0
-    
-    var playerCounting: Int = 0
     
     var mode: String = defind.variable.currentMode
     var inputCouting: Int = 0
@@ -79,16 +80,23 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentView = defind.variable.currentView
-        
+        viewIsPresent()
         print("KeyPad ready")
         print("Current view = \(currentView)")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        resetState()
+        
         reset()
-        viewIsPresent()
+        summaryDic = [String: [Int]]()
+        
+        print("Current = \(currentLevel) : Last = \(lastLevel)")
+        
+        if currentLevel > lastLevel{
+            resetState()
+            viewIsPresent()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,6 +115,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             showFinger = defind.variable.showFinger
             buttonOn = defind.variable.buttonOn
             isShuffle = defind.variable.isShuffle
+            
+            lastLevel = currentLevel
+            GameViewController().changeValue()
             
             self.updateLabel?.missionLabel(defind.variable.currentMissionTitle, description: defind.variable.currentMissionLabel)
             
@@ -214,14 +225,11 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         print("ans Key = \(self.ansKey)")
         print("Summary = \(self.summaryDic)")
         print("pNaRight = \(pNaRight)")
-
+        
         
         self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, summary: self.summaryDic)
         
-        if pNaRight > 0 {
-            self.playSound()
-        }
-            self.reset()
+        self.reset()
     }
     
     func matching(mode: String) {
@@ -261,7 +269,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         }
         
         let turnCheck = 11 - defind.variable.deadCouter
-        summaryDic[String(turnCheck)] = tempSumKey        
+        if summaryDic.count < 11 {
+            summaryDic[String(turnCheck)] = tempSumKey
+        }
     }
     
     func reset() {
@@ -270,14 +280,16 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         
         self.inputCouting = 0
         
+        
         delay(0.1){
-        self.updateLabel?.reset()
+            self.updateLabel?.reset()
         }
         self.userKey = [String]()
     }
     
     func rebuildFinger(index: Int){
         changeBackgroundButton("FINGER", index: index)
+        
     }
     
     func randomButtonOn(numOn: Int) {
@@ -388,53 +400,10 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     func resetState() {
-        summaryDic = [String: [Int]]()
         for var i: Int = 0; i < defind.datas.defaultNumber.count; i++ {
             let button = getButtonUI(i)
             button.enabled = true
             button.setBackgroundImage(UIImage(named: ""), forState: UIControlState.Normal)
-        }
-    }
-    
-    func playSound() {
-        
-        playerCounting = pNaRight
-        
-        var error: NSError?
-        
-        let resourcePath = NSBundle.mainBundle().URLForResource("ding", withExtension: "WAV")
-        
-        soundPlayer = try! AVAudioPlayer(contentsOfURL: resourcePath!)
-        let session:AVAudioSession = AVAudioSession.sharedInstance()
-        
-        do {
-            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
-        } catch let error1 as NSError {
-            error = error1
-            print("could not set output to speaker")
-            if let e = error {
-                print(e.localizedDescription)
-            }
-        }
-        
-        if let err = error {
-            print("AVAudioPlayer error: \(err.localizedDescription)")
-        } else {
-            print("AVAudioPlayer Play: \(resourcePath)")
-            soundPlayer.stop()
-            soundPlayer.delegate = self
-            soundPlayer.volume = 1.0
-            soundPlayer.prepareToPlay()
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            soundPlayer.play()
-        }
-    }
-    
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-        
-        playerCounting -= 1
-        if self.playerCounting > 0 {
-           self.playSound()
         }
     }
     

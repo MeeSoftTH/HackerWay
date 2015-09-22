@@ -27,6 +27,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var summaryDic = [String: [Int]]()
     
     var timeCounting: Int = 0
+    var afterAds: Bool = false
     
     @IBOutlet var timeCout: UILabel!
     
@@ -34,8 +35,6 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var timeSCr: UILabel!
     @IBOutlet var totalSCr: UILabel!
     @IBOutlet var scrView: UIView!
-    
-    var calculated: Bool = false
     
     var mode: String = defind.variable.currentMode
     var gameMode = "STORY"
@@ -47,9 +46,15 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var adsId: String = "76395"
     
+    var retry: Int = 0
+    
     var arryOfDatas:[SummaryData] = [SummaryData]()
     
     override func viewDidLoad() {
+        
+        UnityAds.sharedInstance().delegate = self
+        UnityAds.sharedInstance().startWithGameId(adsId)
+        
         super.viewDidLoad()
         
         missionStatus.topItem?.title = missionStatus2
@@ -59,15 +64,43 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         if missionStatus2 == "Game Over" && mode == gameMode{
-            tryAgain.setTitle("Watch", forState: .Normal)
-            UnityAds.sharedInstance().delegate = self
-            UnityAds.sharedInstance().startWithGameId(adsId)
+            if retry > 0 {
+                UnityAds.sharedInstance().setViewController(self)
+                UnityAds.sharedInstance().setZone("rewardedVideoZone")
+                
+                if UnityAds.sharedInstance().canShowAds(){
+                    tryAgain.setTitle("Watch", forState: .Normal)
+                }
+            }
         }
         
+        if tryAgain.titleLabel!.text == "Try again" {
+            tryAgain.backgroundColor = UIColor.brownColor()
+        }else if tryAgain.titleLabel!.text == "Watch" {
+            tryAgain.backgroundColor = UIColor.blueColor()
+        }
         
+        calculateScore()
         setUpDatas()
+        
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if afterAds == true {
+            let refreshAlert = UIAlertController(title: "Ready", message: "Ready for try again", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+                self.summaryAction(self.actionTry, mode: self.gameMode)
+                self.afterAds = false
+            }))
+            
+            self.presentViewController(refreshAlert, animated: true, completion: nil)
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -79,9 +112,9 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch segmentedControl.selectedSegmentIndex
         {
         case 0:
-            showSummary()
-        case 1:
             showScore()
+        case 1:
+            showSummary()
         default:
             break;
         }
@@ -90,6 +123,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func nextAction(sender: UIButton) {
         
         if sender.titleLabel?.text == "Next" {
+            defind.variable.currentLevel += 1
             summaryAction(actionNext, mode: gameMode)
         }else {
             summaryAction(actionNext, mode: randomMode)
@@ -100,11 +134,11 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if sender.titleLabel?.text == "Watch" {
             
-            UnityAds.sharedInstance().setViewController(self)
-            UnityAds.sharedInstance().setZone("rewardedVideoZone")
-            
             if UnityAds.sharedInstance().canShowAds(){
                 UnityAds.sharedInstance().show()
+            }else {
+                tryAgain.setTitle("Try again", forState: .Normal)
+                tryAgain.backgroundColor = UIColor.brownColor()
             }
             
         }else {
@@ -128,20 +162,22 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         scrView.hidden = false
         myTableView.hidden = true
         
-        
-        if calculated == false {
-            calculateScore()
-            calculated = true
-        }
     }
     
     func calculateScore() {
+        
         // LV(life x 100 + sec x 10)
-        let life = defind.variable.deadCouter
+        let life = missionStatus2 == "Game Over" ? 0 : defind.variable.deadCouter
         let lifeScore: Int = life * 100
+        
         self.lifeScr.text = String(lifeScore)
         
+        if missionStatus2 == "Game Over" {
+            timeCounting = 0
+        }
+        
         let timeScore: Int = timeCounting * 10
+        
         self.timeCout.text = String(timeCounting)
         
         self.timeSCr.text = String(timeScore)
@@ -205,11 +241,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func summaryAction(action: String, mode: String) {
-        if mode == gameMode {
-            if action == actionNext {
-                defind.variable.currentLevel += 1
-            }
-        }else {
+        if mode != gameMode {
             if action != actionTry {
                 defind.variable.currentLevel = 0
                 self.uiCheck?.UICheck(true)
@@ -221,7 +253,18 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func unityAdsVideoCompleted(rewardItemKey: String, skipped: Bool) -> Void{
         if !skipped {
+            afterAds = true
             tryAgain.setTitle("Try again", forState: .Normal)
+            
+            if tryAgain.titleLabel!.text == "Try again" {
+                tryAgain.backgroundColor = UIColor.brownColor()
+            }
+            
         }
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time( DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
     }
 }

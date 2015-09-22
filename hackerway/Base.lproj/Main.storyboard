@@ -337,7 +337,7 @@
                                     <navigationItem title="Mission status" id="3OU-aV-bZh"/>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oFr-OB-61d">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oFr-OB-61d">
                                 <rect key="frame" x="0.0" y="164" width="320" height="326"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -427,14 +427,14 @@
                                     <constraint firstAttribute="height" constant="28" id="hFq-wF-taT"/>
                                 </constraints>
                                 <segments>
-                                    <segment title="Summary"/>
                                     <segment title="Score"/>
+                                    <segment title="Summary"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentControl:" destination="ajm-rH-ZJF" eventType="valueChanged" id="x8N-dv-NBH"/>
                                 </connections>
                             </segmentedControl>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUD-S1-tYE">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUD-S1-tYE">
                                 <rect key="frame" x="0.0" y="164" width="320" height="326"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="life" translatesAutoresizingMaskIntoConstraints="NO" id="4eY-J1-xOV">
