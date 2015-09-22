@@ -112,6 +112,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.meterTimer.invalidate()
             //noHaveLife()
             counter = 0
+            delay(0.1) {
+                self.playSound()
+            }
             self.summaryView(summaryAns, title: "Game Over", retry: retry++)
         }
     }
@@ -179,9 +182,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             }
             
         }else if rightP >= 4 {
-            
-            playerCounting = 0
-            
+            self.playerCounting = rightP
             delay(0.2){
                 self.playSound()
             }

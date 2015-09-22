@@ -93,7 +93,14 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         
         print("Current = \(currentLevel) : Last = \(lastLevel)")
         
-        if currentLevel > lastLevel{
+        if currentLevel > lastLevel && mode == gameMode{
+            resetState()
+            viewIsPresent()
+        }
+        
+        if mode == challengeMode {
+            resetState()
+        }else if mode == randomMode {
             resetState()
             viewIsPresent()
         }
