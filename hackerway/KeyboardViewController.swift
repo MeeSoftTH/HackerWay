@@ -85,14 +85,13 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        reset()
-        resetState()
         summaryDic = [String: [Int]]()
+        reset()
         
         if mode == gameMode {
+            resetState()
             viewIsPresent()
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
