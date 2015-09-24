@@ -48,9 +48,6 @@ class KeyboardViewController: UIViewController {
     var buttonOn: Int = 10
     var isShuffle: Bool = false
     
-    var currentLevel: Int = 0
-    var lastLevel: Int = 0
-    
     var updateText: Bool = true
     
     var pNaRight: Int = 0
@@ -86,21 +83,13 @@ class KeyboardViewController: UIViewController {
         super.viewWillAppear(animated)
         
         reset()
+        resetState()
         summaryDic = [String: [Int]]()
         
-        currentLevel = defind.variable.currentLevel
-        
-        print("Current = \(currentLevel) : Last = \(lastLevel)")
-        
-        if currentLevel > lastLevel && mode == gameMode{
-            resetState()
-            viewIsPresent()
-        }else if mode == challengeMode {
-            resetState()
-        }else if mode == randomMode {
-            resetState()
+        if mode == gameMode {
             viewIsPresent()
         }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -120,7 +109,6 @@ class KeyboardViewController: UIViewController {
             buttonOn = defind.variable.buttonOn
             isShuffle = defind.variable.isShuffle
             
-            lastLevel = currentLevel
             GameViewController().changeValue()
             
             self.updateLabel?.missionLabel(defind.variable.currentMissionTitle, description: defind.variable.currentMissionLabel)

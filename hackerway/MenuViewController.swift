@@ -63,6 +63,7 @@ class MenuViewController: UIViewController {
     }
 
     func getScore()-> String {
+        
         let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
         let hightScore = userSetting.integerForKey("hiscore")
         let scoreLabel: String = "Hight score : \(String(hightScore))"

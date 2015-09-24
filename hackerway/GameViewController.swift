@@ -31,6 +31,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     @IBOutlet var hitLabel: UILabel!
     
     var soundPlayer:AVAudioPlayer = AVAudioPlayer()
+    
     var mode: String = defind.variable.currentMode
     var gameMode = "STORY"
     var challengeMode = "CHALLENGE"
@@ -46,6 +47,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     var isClose: Bool = false
     
+    var summaryTitle: String = ""
+    var summaryOverMode: String = ""
+    var sumNum: Int = 0
+    var isSummary: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -53,6 +59,16 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     @IBAction func exit(sender: UIBarButtonItem) {
         self.meterTimer.invalidate()
         defind.variable.currentLevel = 0
+        
+        if mode == gameMode {
+            
+            let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+            let hightScore = userSetting.integerForKey("hiscore")
+            if hightScore < defind.variable.score {
+                userSetting.setInteger(defind.variable.score, forKey: "hiscore")
+            }
+        }
+        
         defind.variable.score = 0
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -60,6 +76,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.isSummary = false
         
         if isClose == true {
             defind.variable.currentLevel = 0
@@ -70,12 +88,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.hitLabel.text = ""
             counter = 180
             defind.variable.deadCouter = 10
-            time.text = "Remaining: \(String(counter)) s"
+            time.text = "TIME : \(String(counter)) s"
             
             deadCouter.text = String(defind.variable.deadCouter)
             meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -109,15 +126,18 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     func updateCounter() {
         
         if counter >= 0 {
-            time.text = "Remaining: \(String(counter--)) s"
+            time.text = "TIME : \(String(counter--)) s"
         }else if counter < 0 {
             self.meterTimer.invalidate()
             //noHaveLife()
             counter = 0
-            delay(0.1) {
-                self.playSound()
-            }
-            self.summaryView(summaryAns, title: "Game Over", retry: retry++)
+            
+            self.isSummary = true
+            summaryTitle = "Game Over"
+            summaryOverMode = "TIME"
+            sumNum = 1
+            
+            self.playSound()
         }
     }
     
@@ -134,6 +154,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     }
     
     func keyPadIndex(index: Int){
+        
         let text = String(index)
         
         if box1.text == "" {
@@ -149,8 +170,10 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     func lifeCheck(rightP: Int, rightA: Int, summary: [String: [Int]]) {
         meterTimer.invalidate()
+        
         summaryAns = summary
         if rightP < 4{
+            self.isSummary = false
             let yourLife = defind.variable.deadCouter < 0 ? defind.variable.deadCouter : defind.variable.deadCouter - 1
             defind.variable.deadCouter = yourLife
             self.deadCouter.text = String(yourLife)
@@ -169,27 +192,31 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
                 }else {
                     if self.mode == self.randomMode {
                         defind.variable.currentLevel = 0
-                        //self.noHaveLife()
                         
                     }else {
-                        //self.noHaveLife()
                         self.hitLabel.text = ""
                     }
                     
+                    self.summaryTitle = "Game Over"
+                    self.summaryOverMode = "LIFE"
+                    self.sumNum = 1
+                    
+                    self.isSummary = true
                     self.playSound()
                     
-                    self.summaryView(summary, title: "Game Over", retry: self.retry++)
                 }
-                
             }
             
         }else if rightP >= 4 {
+            self.isSummary = true
+            self.hitLabel.text = "Correct ••••"
             self.playerCounting = rightP
-            delay(0.2){
-                self.playSound()
-            }
-            self.summaryView(summary, title: "Congraturation", retry: 0)
-            //youWin()
+            
+            summaryTitle = "Congraturation"
+            summaryOverMode = "WIN"
+            sumNum = 0
+            
+            self.playSound()
         }
     }
     
@@ -202,8 +229,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     func playSound() {
         
-        var error: NSError?
-        
         let resourcePath = NSBundle.mainBundle().URLForResource("ding", withExtension: "WAV")
         
         soundPlayer = try! AVAudioPlayer(contentsOfURL: resourcePath!)
@@ -211,25 +236,19 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         
         do {
             try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
-        } catch let error1 as NSError {
-            error = error1
+        } catch let error as NSError {
+            
             print("could not set output to speaker")
-            if let e = error {
-                print(e.localizedDescription)
-            }
+            print(error.localizedDescription)
         }
         
-        if let err = error {
-            print("AVAudioPlayer error: \(err.localizedDescription)")
-        } else {
-            print("AVAudioPlayer Play: \(resourcePath)")
-            soundPlayer.stop()
-            soundPlayer.delegate = self
-            soundPlayer.volume = 1.0
-            soundPlayer.prepareToPlay()
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            soundPlayer.play()
-        }
+        print("AVAudioPlayer Play: \(resourcePath)")
+        soundPlayer.stop()
+        soundPlayer.delegate = self
+        soundPlayer.volume = 1.0
+        soundPlayer.prepareToPlay()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        soundPlayer.play()
     }
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
@@ -237,24 +256,41 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         playerCounting -= 1
         if self.playerCounting > 0 {
             self.playSound()
+        }else {
+            if self.isSummary == true {
+                self.summaryView(summaryAns, title: self.summaryTitle, retry: retry + sumNum, overMode: self.summaryOverMode)
+            }
         }
+        
     }
     
     
-    func summaryView(summary: [String: [Int]], title: String, retry: Int) {
+    func summaryView(summary: [String: [Int]], title: String, retry: Int, overMode: String) {
+        sleep(2)
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! SummaryViewController
         vc.summaryDic = summary
-        vc.timeCounting = counter
+        vc.timeCounting = self.counter
         vc.missionStatus2 = title
         vc.retry = retry
+        vc.overMode = overMode
         vc.uiCheck = self
-        
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
     func  UICheck(isClose: Bool) {
         
         if isClose == true {
+            
+            if mode == gameMode {
+                let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+                let hightScore = userSetting.integerForKey("hiscore")
+                
+                if hightScore < defind.variable.score {
+                    userSetting.setInteger(defind.variable.score, forKey: "hiscore")
+                }
+            }
+            defind.variable.score = 0
+            
             self.isClose = true
         }
     }

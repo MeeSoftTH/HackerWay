@@ -31,6 +31,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var timeCout: UILabel!
     
+    @IBOutlet var answer: UILabel!
+    @IBOutlet var lifeCount: UILabel!
     @IBOutlet var lifeScr: UILabel!
     @IBOutlet var timeSCr: UILabel!
     @IBOutlet var totalSCr: UILabel!
@@ -45,6 +47,9 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var actionTry: String = "TRY"
     
     var adsId: String = "76395"
+    
+    var statusLabel: String = ""
+    var overMode: String = ""
     
     var retry: Int = 0
     
@@ -63,21 +68,31 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
             nextButton.setTitle("End", forState: .Normal)
         }
         
-        if missionStatus2 == "Game Over" && mode == gameMode{
+        if missionStatus2 == "Game Over" && mode == gameMode {
             if retry > 0 {
                 UnityAds.sharedInstance().setViewController(self)
                 UnityAds.sharedInstance().setZone("rewardedVideoZone")
                 
                 if UnityAds.sharedInstance().canShowAds(){
-                    tryAgain.setTitle("Watch", forState: .Normal)
+                    tryAgain.setTitle("Watch to try again", forState: .Normal)
                 }
             }
         }
         
         if tryAgain.titleLabel!.text == "Try again" {
             tryAgain.backgroundColor = UIColor.brownColor()
-        }else if tryAgain.titleLabel!.text == "Watch" {
+        }else if tryAgain.titleLabel!.text == "Watch to try again" {
             tryAgain.backgroundColor = UIColor.blueColor()
+        }
+        
+        
+        if overMode == "WIN" {
+            if mode == gameMode {
+                tryAgain.hidden = true
+            }else {
+                tryAgain.hidden = false
+            }
+            
         }
         
         calculateScore()
@@ -132,10 +147,24 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func tryAgainButton(sender: UIButton) {
         
-        if sender.titleLabel?.text == "Watch" {
+        if sender.titleLabel?.text == "Watch to try again" {
             
             if UnityAds.sharedInstance().canShowAds(){
-                UnityAds.sharedInstance().show()
+                
+                let refreshAlert = UIAlertController(title: "Watch", message: "Watch ads for enable try again", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                refreshAlert.addAction(UIAlertAction(title: "Watch", style: .Default, handler: { (action: UIAlertAction!) in
+                    print("WATCH")
+                    UnityAds.sharedInstance().show()
+
+                }))
+                
+                refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
+                    print("CANCEL")
+                }))
+                
+                presentViewController(refreshAlert, animated: true, completion: nil)
+                
             }else {
                 tryAgain.setTitle("Try again", forState: .Normal)
                 tryAgain.backgroundColor = UIColor.brownColor()
@@ -166,17 +195,48 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func calculateScore() {
         
-        // LV(life x 100 + sec x 10)
-        let life = missionStatus2 == "Game Over" ? 0 : defind.variable.deadCouter
-        let lifeScore: Int = life * 100
+        var key = defind.datas.storyKey
         
-        self.lifeScr.text = String(lifeScore)
+        if self.mode == self.challengeMode {
+            key = defind.datas.challengeKey
+        }
+        
+        if overMode == "WIN" {
+            statusLabel = "Answer is"
+            
+        }else if overMode == "TIME" {
+            statusLabel = "Time UP!!"
+            answer.text = "????"
+            
+        }else if overMode == "LIFE" {
+            statusLabel = "Game over"
+            answer.text = "????"
+            
+        }
+        
+        answer.text = "\(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
+        
+        // LV(life x 100 + sec x 10)
+        let life =  overMode == "LIFE" ? 0 : defind.variable.deadCouter
+        
+        self.lifeCount.text = String(life)
+        
+        self.lifeCount.textColor = overMode == "LIFE" ? UIColor.redColor() : UIColor.blackColor()
+        
+        self.lifeScr.textColor = UIColor.blackColor()
+        
+        var lifeScore: Int = life * 100
         
         if missionStatus2 == "Game Over" {
             timeCounting = 0
+            lifeScore = 0
         }
         
+        self.lifeScr.text = String(lifeScore)
+        
         let timeScore: Int = timeCounting * 10
+        
+        self.timeCout.textColor = overMode == "TIME" ? UIColor.redColor() : UIColor.blackColor()
         
         self.timeCout.text = String(timeCounting)
         
@@ -186,19 +246,14 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.totalSCr.text = String(totleScore)
         
-        
-        let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
-        let hightScore = userSetting.integerForKey("hiscore")
-        
-        if totleScore > hightScore && mode == gameMode {
+        if mode == gameMode {
             setScore(totleScore)
         }
     }
     
     
     func setScore(score: Int) {
-        let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
-        userSetting.setInteger(score, forKey: "hiscore")
+        defind.variable.score += score
     }
     
     func setUpDatas() {
@@ -208,10 +263,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
             key = defind.datas.challengeKey
         }
         
-        let ansSet = SummaryData(title: "Correct", index1: Int(key[0])! + 10, index2: Int(key[1])! + 10, index3: Int(key[2])! + 10, index4: Int(key[3])! + 10)
-        
-        arryOfDatas.append(ansSet)
-        
+            let winSet = SummaryData(title: statusLabel, index1: Int(key[0])! + 10, index2: Int(key[1])! + 10, index3: Int(key[2])! + 10, index4: Int(key[3])! + 10)
+            arryOfDatas.append(winSet)
         
         for var index: Int = 0; index < summaryDic.count; index++ {
             let keyDic = String(index + 1)
