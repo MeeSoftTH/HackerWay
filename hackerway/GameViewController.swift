@@ -40,16 +40,12 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     var meterTimer:NSTimer!
     var counter: Int = 180
     var summaryAns = [String: [Int]]()
-    
-    var retry: Int = 0
-    
     var playerCounting: Int = 0
     
     var isClose: Bool = false
     
     var summaryTitle: String = ""
     var summaryOverMode: String = ""
-    var sumNum: Int = 0
     var isSummary: Bool = false
     
     override func viewDidLoad() {
@@ -135,7 +131,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.isSummary = true
             summaryTitle = "Game Over"
             summaryOverMode = "TIME"
-            sumNum = 1
             
             self.playSound()
         }
@@ -150,7 +145,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         
         yourMission.topItem?.title = title
         status.text = description
-        
     }
     
     func keyPadIndex(index: Int){
@@ -199,7 +193,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
                     
                     self.summaryTitle = "Game Over"
                     self.summaryOverMode = "LIFE"
-                    self.sumNum = 1
                     
                     self.isSummary = true
                     self.playSound()
@@ -214,7 +207,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             
             summaryTitle = "Congraturation"
             summaryOverMode = "WIN"
-            sumNum = 0
             
             self.playSound()
         }
@@ -258,20 +250,19 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.playSound()
         }else {
             if self.isSummary == true {
-                self.summaryView(summaryAns, title: self.summaryTitle, retry: retry + sumNum, overMode: self.summaryOverMode)
+                
+                self.summaryView(summaryAns, title: self.summaryTitle, overMode: self.summaryOverMode)
             }
         }
-        
     }
     
     
-    func summaryView(summary: [String: [Int]], title: String, retry: Int, overMode: String) {
+    func summaryView(summary: [String: [Int]], title: String, overMode: String) {
         sleep(2)
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! SummaryViewController
         vc.summaryDic = summary
         vc.timeCounting = self.counter
         vc.missionStatus2 = title
-        vc.retry = retry
         vc.overMode = overMode
         vc.uiCheck = self
         self.presentViewController(vc, animated: true, completion: nil)
@@ -293,9 +284,5 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             
             self.isClose = true
         }
-    }
-    
-    func changeValue() {
-        retry = 0
     }
 }

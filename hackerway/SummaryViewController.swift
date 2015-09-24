@@ -51,8 +51,6 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var statusLabel: String = ""
     var overMode: String = ""
     
-    var retry: Int = 0
-    
     var arryOfDatas:[SummaryData] = [SummaryData]()
     
     override func viewDidLoad() {
@@ -68,23 +66,30 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
             nextButton.setTitle("End", forState: .Normal)
         }
         
+        print("Show ads == \(defind.variable.adsOn)")
+        
         if missionStatus2 == "Game Over" && mode == gameMode {
-            if retry > 0 {
+            print("Show ads == \(defind.variable.adsOn)")
+            if defind.variable.adsOn == true {
                 UnityAds.sharedInstance().setViewController(self)
                 UnityAds.sharedInstance().setZone("rewardedVideoZone")
                 
                 if UnityAds.sharedInstance().canShowAds(){
                     tryAgain.setTitle("Watch to try again", forState: .Normal)
                 }
+            }else {
+                defind.variable.adsOn = true
             }
+        }else {
+            defind.variable.adsOn = false
         }
+        
         
         if tryAgain.titleLabel!.text == "Try again" {
             tryAgain.backgroundColor = UIColor.brownColor()
         }else if tryAgain.titleLabel!.text == "Watch to try again" {
             tryAgain.backgroundColor = UIColor.blueColor()
         }
-        
         
         if overMode == "WIN" {
             if mode == gameMode {
@@ -156,7 +161,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 refreshAlert.addAction(UIAlertAction(title: "Watch", style: .Default, handler: { (action: UIAlertAction!) in
                     print("WATCH")
                     UnityAds.sharedInstance().show()
-
+                    
                 }))
                 
                 refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
@@ -263,8 +268,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
             key = defind.datas.challengeKey
         }
         
-            let winSet = SummaryData(title: statusLabel, index1: Int(key[0])! + 10, index2: Int(key[1])! + 10, index3: Int(key[2])! + 10, index4: Int(key[3])! + 10)
-            arryOfDatas.append(winSet)
+        let winSet = SummaryData(title: statusLabel, index1: Int(key[0])! + 10, index2: Int(key[1])! + 10, index3: Int(key[2])! + 10, index4: Int(key[3])! + 10)
+        arryOfDatas.append(winSet)
         
         for var index: Int = 0; index < summaryDic.count; index++ {
             let keyDic = String(index + 1)

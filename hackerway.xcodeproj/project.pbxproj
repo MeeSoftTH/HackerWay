@@ -16,6 +16,7 @@
 		6B1388871B9DE662002095FD /* SetKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388861B9DE662002095FD /* SetKeyViewController.swift */; };
 		6B485B9D1BABF90F008F51BA /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B485B9C1BABF90F008F51BA /* SummaryCell.swift */; settings = {ASSET_TAGS = (); }; };
 		6B485B9F1BABF9BF008F51BA /* SummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B485B9E1BABF9BF008F51BA /* SummaryData.swift */; settings = {ASSET_TAGS = (); }; };
+		6B582FC01BB4042D00251FBC /* click.WAV in Resources */ = {isa = PBXBuildFile; fileRef = 6B582FBF1BB4042D00251FBC /* click.WAV */; settings = {ASSET_TAGS = (); }; };
 		6B94F1631BA13F7500F27F83 /* levelDefind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B94F1621BA13F7500F27F83 /* levelDefind.swift */; };
 		6BAF80FA1B94107B00096579 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF80F91B94107B00096579 /* AppDelegate.swift */; };
 		6BAF80FC1B94107B00096579 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF80FB1B94107B00096579 /* MenuViewController.swift */; };
@@ -53,6 +54,7 @@
 		6B1388861B9DE662002095FD /* SetKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetKeyViewController.swift; sourceTree = "<group>"; };
 		6B485B9C1BABF90F008F51BA /* SummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		6B485B9E1BABF9BF008F51BA /* SummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryData.swift; sourceTree = "<group>"; };
+		6B582FBF1BB4042D00251FBC /* click.WAV */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.WAV; sourceTree = "<group>"; };
 		6B94F1621BA13F7500F27F83 /* levelDefind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = levelDefind.swift; sourceTree = "<group>"; };
 		6BAF80F41B94107B00096579 /* hackerway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackerway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAF80F81B94107B00096579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		6B00BFC51BAABD660063B60F /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				6B582FBF1BB4042D00251FBC /* click.WAV */,
 				6B00BFC61BAABD660063B60F /* ding.WAV */,
 			);
 			path = Sound;
@@ -286,6 +289,7 @@
 				6BAF81041B94107B00096579 /* LaunchScreen.xib in Resources */,
 				6B00BFC71BAABD660063B60F /* ding.WAV in Resources */,
 				6BAF81011B94107B00096579 /* Images.xcassets in Resources */,
+				6B582FC01BB4042D00251FBC /* click.WAV in Resources */,
 				6BDA5E471BB0060300E51E52 /* UnityAds.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

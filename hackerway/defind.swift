@@ -32,6 +32,8 @@ class defind {
         
         static let challengeTitle = "Challenge mode"
         static let challengeLabel = ""
+        
+        static var adsOn: Bool = false
     }
     
     struct datas {

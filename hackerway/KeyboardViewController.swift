@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
@@ -19,7 +20,7 @@ protocol setKeyLabelProtocal {
     func keyPadIndex(index: Int)
 }
 
-class KeyboardViewController: UIViewController {
+class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     var updateLabel: updateLabelProtocal? = defind.variable.keyPadViewActivate
     var setKeyLabel: setKeyLabelProtocal? = defind.variable.setKeyViewActivate
@@ -34,6 +35,8 @@ class KeyboardViewController: UIViewController {
     @IBOutlet var button07: UIButton!
     @IBOutlet var button08: UIButton!
     @IBOutlet var button09: UIButton!
+
+    var soundPlayer:AVAudioPlayer = AVAudioPlayer()
     
     var brokenImage: String = "broken"
     var fingerImage: String = "fingerprint"
@@ -109,8 +112,6 @@ class KeyboardViewController: UIViewController {
             buttonOn = defind.variable.buttonOn
             isShuffle = defind.variable.isShuffle
             
-            GameViewController().changeValue()
-            
             self.updateLabel?.missionLabel(defind.variable.currentMissionTitle, description: defind.variable.currentMissionLabel)
             
             if showFinger == true{
@@ -183,6 +184,7 @@ class KeyboardViewController: UIViewController {
     
     func switchMode(index: Int) {
         if updateText == true {
+            playSound()
             if currentView == gameViewMode {
                 self.updateLabel?.keyPadIndex(index)
                 appendData(index)
@@ -206,7 +208,6 @@ class KeyboardViewController: UIViewController {
                 self.validateKey()
                 self.updateText = true
             }
-            
         }
     }
     
@@ -390,6 +391,30 @@ class KeyboardViewController: UIViewController {
         }
         return buttonUI
     }
+    
+    func playSound() {
+        
+        let resourcePath = NSBundle.mainBundle().URLForResource("click", withExtension: "WAV")
+        
+        soundPlayer = try! AVAudioPlayer(contentsOfURL: resourcePath!)
+        let session:AVAudioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch let error as NSError {
+            
+            print("could not set output to speaker")
+            print(error.localizedDescription)
+        }
+        
+        print("AVAudioPlayer Play: \(resourcePath)")
+        soundPlayer.stop()
+        soundPlayer.delegate = self
+        soundPlayer.volume = 1.0
+        soundPlayer.prepareToPlay()
+        soundPlayer.play()
+    }
+
     
     func resetState() {
         for var i: Int = 0; i < defind.datas.defaultNumber.count; i++ {
