@@ -18,15 +18,13 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         score.text = getScore()
-
     }
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -61,7 +59,7 @@ class MenuViewController: UIViewController {
         defind.variable.currentView = gameView
         self.presentViewController(vc, animated: true, completion: nil)
     }
-
+    
     func getScore()-> String {
         
         let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()

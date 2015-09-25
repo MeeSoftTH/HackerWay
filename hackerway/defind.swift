@@ -24,6 +24,7 @@ class defind {
         static var showFinger: Bool = false
         static var buttonOn: Int = 10
         static var isShuffle: Bool = false
+        static var levelMsg: String = ""
         
         static var currentMultiply: Int = 1
         static var currentLevel: Int = 0
@@ -34,6 +35,8 @@ class defind {
         static let challengeLabel = ""
         
         static var adsOn: Bool = false
+        
+        static var timeCouter: Int = 180
     }
     
     struct datas {

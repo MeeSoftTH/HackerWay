@@ -26,6 +26,7 @@ class functions {
         let showFinger: Bool = currentData[5] as! Bool
         let buttonOn: Int = currentData[6] as! Int
         let isShuffle: Bool = currentData[7] as! Bool
+        let levelMsg: String = currentData[8] as! String
         
         //defind label
         defind.variable.currentMissionTitle = title
@@ -35,6 +36,7 @@ class functions {
         defind.variable.showFinger = showFinger
         defind.variable.buttonOn = buttonOn
         defind.variable.isShuffle = isShuffle
+        defind.variable.levelMsg = levelMsg
         
         
         for var i: Int = 0; i < randomLength; i++ {

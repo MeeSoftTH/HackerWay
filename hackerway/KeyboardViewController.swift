@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
-    func lifeCheck(rightP: Int, rightA: Int, summary: [String: [Int]])
+    func lifeCheck(rightP: Int, rightA: Int, answer: [String], summary: [String: [Int]])
     func missionLabel(title: String, description: String)
     func reset()
 }
@@ -35,7 +35,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet var button07: UIButton!
     @IBOutlet var button08: UIButton!
     @IBOutlet var button09: UIButton!
-
+    
     var soundPlayer:AVAudioPlayer = AVAudioPlayer()
     
     var brokenImage: String = "broken"
@@ -74,6 +74,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     var currentView: String = ""
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         currentView = defind.variable.currentView
@@ -88,7 +89,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         summaryDic = [String: [Int]]()
         reset()
         
-        if mode == gameMode {
+        if mode == gameMode{
             resetState()
             viewIsPresent()
         }
@@ -219,7 +220,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         print("pNaRight = \(pNaRight)")
         
         
-        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, summary: self.summaryDic)
+        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, answer: self.ansKey, summary: self.summaryDic)
         
         self.reset()
     }
@@ -413,7 +414,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         soundPlayer.prepareToPlay()
         soundPlayer.play()
     }
-
+    
     
     func resetState() {
         for var i: Int = 0; i < defind.datas.defaultNumber.count; i++ {

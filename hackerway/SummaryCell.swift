@@ -23,12 +23,6 @@ class SummaryCell: UITableViewCell {
         var tempdata3 = indexData3
         var tempdata4 = indexData4
         
-        if title == "Answer is" {
-            self.title.textColor = UIColor.blueColor()
-        }else {
-            self.title.textColor = UIColor.blackColor()
-        }
-        
         if indexData1 >= 10 {
             self.index1.textColor = UIColor.blueColor()
             tempdata1 = indexData1 - 10
@@ -59,10 +53,10 @@ class SummaryCell: UITableViewCell {
         
         self.title.text = title
         
-        self.index1.text = tempdata1 < 0 ? "?" : String(tempdata1)
-        self.index2.text = tempdata2 < 0 ? "?" : String(tempdata2)
-        self.index3.text = tempdata3 < 0 ? "?" : String(tempdata3)
-        self.index4.text = tempdata4 < 0 ? "?" : String(tempdata4)
+        self.index1.text = String(tempdata1)
+        self.index2.text = String(tempdata2)
+        self.index3.text = String(tempdata3)
+        self.index4.text = String(tempdata4)
         
     }
 }

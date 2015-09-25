@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		6B00BFC71BAABD660063B60F /* ding.WAV in Resources */ = {isa = PBXBuildFile; fileRef = 6B00BFC61BAABD660063B60F /* ding.WAV */; settings = {ASSET_TAGS = (); }; };
+		6B09E61D1BB508AB007049F1 /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B09E61C1BB508AB007049F1 /* SummaryViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		6B09E61F1BB53C46007049F1 /* ding2.WAV in Resources */ = {isa = PBXBuildFile; fileRef = 6B09E61E1BB53C46007049F1 /* ding2.WAV */; settings = {ASSET_TAGS = (); }; };
 		6B13887D1B9DE556002095FD /* defind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13887C1B9DE556002095FD /* defind.swift */; };
 		6B13887F1B9DE570002095FD /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13887E1B9DE570002095FD /* functions.swift */; };
 		6B1388811B9DE5A8002095FD /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388801B9DE5A8002095FD /* KeyboardViewController.swift */; };
 		6B1388831B9DE634002095FD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388821B9DE634002095FD /* GameViewController.swift */; };
-		6B1388851B9DE647002095FD /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388841B9DE647002095FD /* SummaryViewController.swift */; };
+		6B1388851B9DE647002095FD /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388841B9DE647002095FD /* ScoreViewController.swift */; };
 		6B1388871B9DE662002095FD /* SetKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1388861B9DE662002095FD /* SetKeyViewController.swift */; };
 		6B485B9D1BABF90F008F51BA /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B485B9C1BABF90F008F51BA /* SummaryCell.swift */; settings = {ASSET_TAGS = (); }; };
 		6B485B9F1BABF9BF008F51BA /* SummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B485B9E1BABF9BF008F51BA /* SummaryData.swift */; settings = {ASSET_TAGS = (); }; };
@@ -46,11 +48,13 @@
 
 /* Begin PBXFileReference section */
 		6B00BFC61BAABD660063B60F /* ding.WAV */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.WAV; sourceTree = "<group>"; };
+		6B09E61C1BB508AB007049F1 /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
+		6B09E61E1BB53C46007049F1 /* ding2.WAV */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding2.WAV; sourceTree = "<group>"; };
 		6B13887C1B9DE556002095FD /* defind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = defind.swift; sourceTree = "<group>"; };
 		6B13887E1B9DE570002095FD /* functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		6B1388801B9DE5A8002095FD /* KeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		6B1388821B9DE634002095FD /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		6B1388841B9DE647002095FD /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
+		6B1388841B9DE647002095FD /* ScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		6B1388861B9DE662002095FD /* SetKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetKeyViewController.swift; sourceTree = "<group>"; };
 		6B485B9C1BABF90F008F51BA /* SummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		6B485B9E1BABF9BF008F51BA /* SummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryData.swift; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 		6B00BFC51BAABD660063B60F /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				6B09E61E1BB53C46007049F1 /* ding2.WAV */,
 				6B582FBF1BB4042D00251FBC /* click.WAV */,
 				6B00BFC61BAABD660063B60F /* ding.WAV */,
 			);
@@ -128,9 +133,10 @@
 				6BAF80FB1B94107B00096579 /* MenuViewController.swift */,
 				6B1388801B9DE5A8002095FD /* KeyboardViewController.swift */,
 				6B1388821B9DE634002095FD /* GameViewController.swift */,
-				6B1388841B9DE647002095FD /* SummaryViewController.swift */,
+				6B1388841B9DE647002095FD /* ScoreViewController.swift */,
 				6B485B9C1BABF90F008F51BA /* SummaryCell.swift */,
 				6B485B9E1BABF9BF008F51BA /* SummaryData.swift */,
+				6B09E61C1BB508AB007049F1 /* SummaryViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 				6BAF80FF1B94107B00096579 /* Main.storyboard in Resources */,
 				6BAF81041B94107B00096579 /* LaunchScreen.xib in Resources */,
 				6B00BFC71BAABD660063B60F /* ding.WAV in Resources */,
+				6B09E61F1BB53C46007049F1 /* ding2.WAV in Resources */,
 				6BAF81011B94107B00096579 /* Images.xcassets in Resources */,
 				6B582FC01BB4042D00251FBC /* click.WAV in Resources */,
 				6BDA5E471BB0060300E51E52 /* UnityAds.bundle in Resources */,
@@ -316,9 +323,10 @@
 				6BAF80FA1B94107B00096579 /* AppDelegate.swift in Sources */,
 				6B13887D1B9DE556002095FD /* defind.swift in Sources */,
 				6B1388831B9DE634002095FD /* GameViewController.swift in Sources */,
-				6B1388851B9DE647002095FD /* SummaryViewController.swift in Sources */,
+				6B1388851B9DE647002095FD /* ScoreViewController.swift in Sources */,
 				6B13887F1B9DE570002095FD /* functions.swift in Sources */,
 				6B485B9F1BABF9BF008F51BA /* SummaryData.swift in Sources */,
+				6B09E61D1BB508AB007049F1 /* SummaryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
