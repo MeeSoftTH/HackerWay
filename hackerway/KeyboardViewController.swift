@@ -79,6 +79,11 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentView = defind.variable.currentView
+        
+        if mode != gameMode {
+            viewIsPresent()
+        }
+        
         print("KeyPad ready")
         print("Current view = \(currentView)")
     }
@@ -260,11 +265,11 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         }
         
         if mode == matchMode {
-        let turnCheck = 11 - defind.variable.deadCouter
-        if summaryDic.count < 11 {
-            summaryDic[String(turnCheck)] = tempSumKey
-            self.updateLabel?.updateSummary(summaryDic)
-        }
+            let turnCheck = 11 - defind.variable.deadCouter
+            if summaryDic.count < 11 {
+                summaryDic[String(turnCheck)] = tempSumKey
+                self.updateLabel?.updateSummary(summaryDic)
+            }
         }
     }
     

@@ -36,7 +36,7 @@ class defind {
         
         static var adsOn: Bool = false
         
-        static var timeCouter: Int = 10
+        static var timeCouter: Int = 180
     }
     
     struct datas {

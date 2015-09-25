@@ -156,7 +156,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             time.text = "TIME : \(String(counter--)) s"
         }else if counter < 0 {
             self.meterTimer.invalidate()
-           
+            
             answerKey = defind.datas.storyKey
             self.counter = 0
             if self.mode == self.challengeMode {
