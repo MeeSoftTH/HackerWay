@@ -42,7 +42,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     var meterTimer:NSTimer!
     var counter: Int = defind.variable.timeCouter
-    var summaryAns = [String: [Int]]()
     var playerCounting: Int = 0
     
     var isClose: Bool = false
@@ -54,6 +53,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     var longSound: String = "ding2"
     
     var answerKey = [String]()
+    var summaryDictGame = [String: [Int]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +82,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         super.viewWillAppear(animated)
         
         self.isSummary = false
+        summaryDictGame = [:]
         
         if isClose == true {
             defind.variable.currentLevel = 0
@@ -155,7 +156,12 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             time.text = "TIME : \(String(counter--)) s"
         }else if counter < 0 {
             self.meterTimer.invalidate()
-            counter = 0
+           
+            answerKey = defind.datas.storyKey
+            self.counter = 0
+            if self.mode == self.challengeMode {
+                answerKey = defind.datas.challengeKey
+            }
             
             self.hitLabel.text = "Time UP!!"
             self.isSummary = true
@@ -191,11 +197,10 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         }
     }
     
-    func lifeCheck(rightP: Int, rightA: Int, answer: [String], summary: [String: [Int]]) {
+    func lifeCheck(rightP: Int, rightA: Int, answer: [String]) {
         meterTimer.invalidate()
         
         answerKey = answer
-        summaryAns = summary
         
         if rightP < 4{
             self.isSummary = false
@@ -265,7 +270,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             print(error.localizedDescription)
         }
         
-        print("AVAudioPlayer Play: \(resourcePath)")
         soundPlayer.stop()
         soundPlayer.delegate = self
         soundPlayer.volume = 1.0
@@ -284,16 +288,23 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         }else {
             if self.isSummary == true {
                 
-                self.summaryView(summaryAns, title: self.summaryTitle)
+                self.summaryView(self.summaryTitle)
             }
         }
     }
     
+    func updateSummary(summaryDic: [String : [Int]]) {
+        print("summaryDic.count game = \(summaryDic.count)")
+        self.summaryDictGame = summaryDic
+    }
     
-    func summaryView(summary: [String: [Int]], title: String) {
+    func summaryView(title: String) {
         sleep(2)
+        
+        print("summaryDictGame = \(summaryDictGame.count)")
+        
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! ScoreViewController
-        vc.summaryDic = summary
+        vc.summaryDic = self.summaryDictGame
         vc.timeCounting = self.counter
         vc.missionStatus2 = title
         vc.life = defind.variable.deadCouter

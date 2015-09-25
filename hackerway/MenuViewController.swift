@@ -33,7 +33,7 @@ class MenuViewController: UIViewController {
     
     @IBAction func storyButton(sender: UIButton) {
         defind.variable.currentMode = "STORY"
-        
+        defind.variable.adsOn = false
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
         defind.variable.keyPadViewActivate = vc
         defind.variable.currentView = gameView

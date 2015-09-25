@@ -11,8 +11,9 @@ import AVFoundation
 
 protocol updateLabelProtocal {
     func keyPadIndex(index: Int)
-    func lifeCheck(rightP: Int, rightA: Int, answer: [String], summary: [String: [Int]])
+    func lifeCheck(rightP: Int, rightA: Int, answer: [String])
     func missionLabel(title: String, description: String)
+    func updateSummary(summaryDic: [String: [Int]])
     func reset()
 }
 
@@ -78,7 +79,6 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentView = defind.variable.currentView
-        viewIsPresent()
         print("KeyPad ready")
         print("Current view = \(currentView)")
     }
@@ -86,9 +86,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        summaryDic = [String: [Int]]()
         reset()
-        
+        summaryDic = [:]
+        print("summaryDic.count = \(summaryDic.count)")
         if mode == gameMode{
             resetState()
             viewIsPresent()
@@ -216,11 +216,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         
         print("user Key = \(self.userKey)")
         print("ans Key = \(self.ansKey)")
-        print("Summary = \(self.summaryDic)")
-        print("pNaRight = \(pNaRight)")
         
+        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, answer: self.ansKey)
         
-        self.updateLabel?.lifeCheck(pNaRight, rightA: aRight, answer: self.ansKey, summary: self.summaryDic)
         
         self.reset()
     }
@@ -261,9 +259,12 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             }
         }
         
+        if mode == matchMode {
         let turnCheck = 11 - defind.variable.deadCouter
         if summaryDic.count < 11 {
             summaryDic[String(turnCheck)] = tempSumKey
+            self.updateLabel?.updateSummary(summaryDic)
+        }
         }
     }
     
@@ -407,7 +408,6 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             print(error.localizedDescription)
         }
         
-        print("AVAudioPlayer Play: \(resourcePath)")
         soundPlayer.stop()
         soundPlayer.delegate = self
         soundPlayer.volume = 1.0

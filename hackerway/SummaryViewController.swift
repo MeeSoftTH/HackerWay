@@ -26,7 +26,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("SUMMARY = \(summaryDic)")
         var key = answerKey
         
         if self.mode == self.challengeMode {
@@ -35,9 +35,8 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         answer.text = "Answer is \(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
         
-        if summaryDic .count > 0 {
+        if summaryDic.isEmpty == false {
             setUpDatas()
-            
         }else{
             myTableView.hidden = true
             nosummary.hidden = false

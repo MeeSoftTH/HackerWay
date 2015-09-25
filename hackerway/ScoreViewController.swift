@@ -142,6 +142,7 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
     }
     
     @IBAction func summaryButton(sender: UIButton) {
+        print("SUMMARY = \(summaryDic)")
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("summary") as! SummaryViewController
         vc.summaryDic = summaryDic
         vc.answerKey = answerKey
