@@ -107,7 +107,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
     
     func viewIsPresent() {
         
-        print("Mode is \(mode)")
+        print("Tune pro Mode is \(mode)")
         
         if mode == gameMode || mode == randomMode {
             functions().createMission()
@@ -119,7 +119,7 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             
             self.updateLabel?.missionLabel(defind.variable.currentMissionTitle, description: defind.variable.currentMissionLabel)
             
-            if showFinger == true{
+            if showFinger == true && isShuffle == false {
                 matching(guideMode)
             }
             
@@ -130,7 +130,6 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             if isShuffle  == true{
                 shuffle(defaultNumber)
             }
-            
             
         }else if  mode == challengeMode {
             ansKey = defind.datas.challengeKey
@@ -257,8 +256,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
                 
                 for var j: Int = 0; j < tempAnsKey.count; j++ {
                     if tempUserKey[i].lowercaseString.rangeOfString(tempAnsKey[j]) != nil {
-                        
+                        if isShuffle == false {
                         self.rebuildFinger(Int(tempAnsKey[j])!)
+                        }
                     }
                 }
             }
@@ -299,13 +299,9 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
         // remove ans key
         
         for var i: Int = 0; i < ansButton.count; i++ {
-            print(Int(ansButton[i]))
-            
             let indexOfArray = findIndexOfArry(defaultNumber, dataNumber: Int(ansButton[i])!)
             defaultNumber.removeAtIndex(indexOfArray)
         }
-        
-        print(defaultNumber)
         
         // random for disable button
         for var i: Int = 0; i < randomForFill; i++ {
@@ -330,16 +326,28 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             let randomArray = Int(arc4random_uniform(UInt32(tempNumber.count)))
             let index = tempNumber[randomArray]
             
+            
+            
             let indexOfArray = findIndexOfArry(tempNumber, dataNumber: index)
             tempNumber.removeAtIndex(indexOfArray)
             
             let button = getButtonUI(i)
             
             button.setTitle(String(index), forState: .Normal)
+            print(index)
+            print(button.titleLabel?.text)
+            
+            for var j: Int = 0; j < self.ansKey.count; j++ {
+                if index == Int(self.ansKey[j]) {
+                    print("\(index) = TRUE")
+                    rebuildFinger(i)
+                }
+            }
         }
         
         defaultNumber = defind.datas.defaultNumber
     }
+    
     func findIndexOfArry(arrayNumber: NSArray, dataNumber: Int) -> Int {
         var index = 0
         for var i: Int = 0; i < arrayNumber.count; i++ {
@@ -364,9 +372,8 @@ class KeyboardViewController: UIViewController, AVAudioPlayerDelegate {
             button.enabled = false
         }
         
-        print("MODE = \(mode)")
+        print("Button Mode = \(mode)")
         print("Image = \(image)")
-        print("Button = \(button)")
         
         button.setBackgroundImage(UIImage(named: image), forState: UIControlState.Normal)
     }

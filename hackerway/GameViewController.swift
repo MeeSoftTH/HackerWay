@@ -80,7 +80,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         self.isSummary = false
         summaryDictGame = [:]
         
@@ -167,6 +167,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.isSummary = true
             summaryTitle = "Game Over"
             
+            self.keyPad.userInteractionEnabled = false
             self.playSound(longSound)
         }
     }
@@ -202,7 +203,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         
         answerKey = answer
         
-        if rightP < 4{
+        if rightP < 4 {
             self.isSummary = false
             let yourLife = defind.variable.deadCouter < 0 ? defind.variable.deadCouter : defind.variable.deadCouter - 1
             defind.variable.deadCouter = yourLife
@@ -232,18 +233,20 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
                     self.hitLabel.text = "Game Over"
                     
                     self.isSummary = true
-                    self.playSound(self.longSound)
                     
+                    self.keyPad.userInteractionEnabled = false
+                    self.playSound(self.longSound)
                 }
             }
             
         }else if rightP >= 4 {
             self.isSummary = true
             self.hitLabel.text = "Answer is \(answer[0])\(answer[1])\(answer[2])\(answer[3])"
-            self.playerCounting = rightP
+            //self.playerCounting = rightP
             
             summaryTitle = "Congraturation"
             
+            self.keyPad.userInteractionEnabled = false
             self.playSound(longSound)
         }
     }
@@ -299,10 +302,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     }
     
     func summaryView(title: String) {
-        sleep(2)
-        
-        print("summaryDictGame = \(summaryDictGame.count)")
-        
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("calculateController") as! ScoreViewController
         vc.summaryDic = self.summaryDictGame
         vc.timeCounting = self.counter
@@ -310,6 +309,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         vc.life = defind.variable.deadCouter
         vc.uiCheck = self
         vc.answerKey = answerKey
+        keyPad.userInteractionEnabled = true
+        sleep(1)
         self.presentViewController(vc, animated: true, completion: nil)
     }
     

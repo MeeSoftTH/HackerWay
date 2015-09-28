@@ -80,7 +80,6 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
         print("Show ads == \(defind.variable.adsOn)")
         
         if missionStatus2 == "Game Over" && mode == gameMode {
-            print("Show ads == \(defind.variable.adsOn)")
             nextButton.hidden = true
             tryAgain.hidden = false
             endButton.hidden = false
@@ -105,10 +104,8 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
             
             tryAgain.hidden = true
             endButton.hidden = true
-        }else {
             defind.variable.adsOn = false
         }
-        
         
         if tryAgain.titleLabel!.text == "Try again" {
             tryAgain.backgroundColor = UIColor.brownColor()

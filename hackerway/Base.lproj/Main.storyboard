@@ -242,7 +242,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your score : 10000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUl-Sd-ezN">
                                 <rect key="frame" x="12" y="110" width="130" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height score: 10000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIo-Eb-1UK">
@@ -251,7 +251,7 @@
                                     <constraint firstAttribute="width" constant="116" id="dfv-Z3-M3k"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -431,7 +431,7 @@
                                     <constraint firstAttribute="height" constant="40" id="BFq-E7-YGk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUD-S1-tYE">
@@ -641,7 +641,7 @@
                                     <constraint firstAttribute="height" constant="21" id="56i-7V-akW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMr-vr-yUH">
@@ -1044,7 +1044,6 @@
                             <constraint firstItem="DSL-pG-kRC" firstAttribute="leading" secondItem="9yr-fY-m7S" secondAttribute="leading" id="nSz-ay-LDf"/>
                             <constraint firstItem="qpy-dH-iL8" firstAttribute="baseline" secondItem="dPZ-lR-U0N" secondAttribute="firstBaseline" id="oBJ-RT-3hg"/>
                             <constraint firstItem="UnB-yw-iwJ" firstAttribute="height" secondItem="kqf-B8-0OJ" secondAttribute="height" id="og7-kU-5GK"/>
-                            <constraint firstItem="dPZ-lR-U0N" firstAttribute="leading" secondItem="nIu-86-qsF" secondAttribute="leading" id="oo1-Yv-47D"/>
                             <constraint firstItem="UnB-yw-iwJ" firstAttribute="baseline" secondItem="qpy-dH-iL8" secondAttribute="baseline" id="pKp-xk-W9q"/>
                             <constraint firstItem="9yr-fY-m7S" firstAttribute="baseline" secondItem="nIu-86-qsF" secondAttribute="firstBaseline" id="phM-A3-HCR"/>
                             <constraint firstItem="kqf-B8-0OJ" firstAttribute="top" secondItem="Fsj-zA-bSF" secondAttribute="bottom" constant="2" id="pt9-Gk-geZ"/>
