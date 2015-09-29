@@ -33,7 +33,7 @@ class SummaryViewController: UIViewController, UITableViewDelegate, UITableViewD
             key = defind.datas.challengeKey
         }
         
-        answer.text = "Answer is \(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
+        answer.text = "Answer is \n\(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
         
         if summaryDic.isEmpty == false {
             setUpDatas()

@@ -38,6 +38,9 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
     @IBOutlet var scrView: UIView!
     @IBOutlet var story: UILabel!
     
+    @IBOutlet var hightScore: UILabel!
+    @IBOutlet var yourScore: UILabel!
+    
     var mode: String = defind.variable.currentMode
     var gameMode = "STORY"
     var challengeMode = "CHALLENGE"
@@ -200,7 +203,7 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
             self.story.text = "Challenge mode"
         }
         
-        answer.text = "Answer is \(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
+        answer.text = "Answer is \n\(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
         
         // LV(life x 100 + sec x 10)
         let life = self.life
@@ -239,6 +242,12 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
     
     func setScore(score: Int) {
         defind.variable.score += score
+        
+        let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+        let topScore = userSetting.integerForKey("hiscore")
+        
+        self.hightScore.text = "Hight score: \(String(topScore))"
+        self.yourScore.text = "Your score: \(String(defind.variable.score))"
     }
     
     func summaryAction(action: String, mode: String) {

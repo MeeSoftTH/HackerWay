@@ -96,6 +96,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             
             deadCouter.text = String(defind.variable.deadCouter)
             meterTimer = NSTimer.scheduledTimerWithTimeInterval(1, target:self, selector: Selector("updateCounter"), userInfo: nil, repeats: true)
+            keyPad.userInteractionEnabled = true
         }
         
         
@@ -105,12 +106,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
             self.heightScore.hidden = false
             
             let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
-            var hightScore = userSetting.integerForKey("hiscore")
-            
-            if hightScore < defind.variable.score {
-                userSetting.setInteger(defind.variable.score, forKey: "hiscore")
-                hightScore = defind.variable.score
-            }
+            let hightScore = userSetting.integerForKey("hiscore")
             
             self.heightScore.text = "Hight score: \(String(hightScore))"
             self.yourScore.text = "Your score: \(String(defind.variable.score))"
@@ -309,7 +305,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         vc.life = defind.variable.deadCouter
         vc.uiCheck = self
         vc.answerKey = answerKey
-        keyPad.userInteractionEnabled = true
         sleep(1)
         self.presentViewController(vc, animated: true, completion: nil)
     }
