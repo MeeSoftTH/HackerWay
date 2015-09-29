@@ -34,6 +34,7 @@ class MenuViewController: UIViewController {
     @IBAction func storyButton(sender: UIButton) {
         defind.variable.currentMode = "STORY"
         defind.variable.adsOn = false
+        defind.variable.score = 0
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
         defind.variable.keyPadViewActivate = vc
         defind.variable.currentView = gameView
@@ -44,6 +45,7 @@ class MenuViewController: UIViewController {
     @IBAction func challengeButton(sender: UIButton) {
         defind.variable.currentMode = "CHALLENGE"
         defind.variable.currentView = setView
+        defind.variable.score = 0
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("setKey") as! SetKeyViewController
         defind.variable.setKeyViewActivate = vc
         self.navigationController?.pushViewController(vc, animated: true)
@@ -53,6 +55,7 @@ class MenuViewController: UIViewController {
         defind.variable.currentMode = "RANDOM"
         let randomLevel = randomIndex(levelDefind.params.levelList.count, start: 0)
         defind.variable.currentLevel = randomLevel
+        defind.variable.score = 0
         
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("gamingController") as! GameViewController
         defind.variable.keyPadViewActivate = vc

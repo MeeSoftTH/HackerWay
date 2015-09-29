@@ -64,15 +64,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
         self.meterTimer.invalidate()
         defind.variable.currentLevel = 0
         
-        if mode == gameMode {
-            
-            let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
-            let hightScore = userSetting.integerForKey("hiscore")
-            if hightScore < defind.variable.score {
-                userSetting.setInteger(defind.variable.score, forKey: "hiscore")
-            }
-        }
-        
         defind.variable.score = 0
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -311,14 +302,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate, updateLabelPr
     
     func  UICheck(isClose: Bool) {
         if isClose == true {
-            if mode == gameMode {
-                let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
-                let hightScore = userSetting.integerForKey("hiscore")
-                
-                if hightScore < defind.variable.score {
-                    userSetting.setInteger(defind.variable.score, forKey: "hiscore")
-                }
-            }
             defind.variable.score = 0
             
             self.isClose = true

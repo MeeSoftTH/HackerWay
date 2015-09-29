@@ -58,6 +58,7 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
         UnityAds.sharedInstance().startWithGameId(adsId)
         
         super.viewDidLoad()
+        calculateScore()
         
         missionStatus.topItem?.title = missionStatus2
         
@@ -76,7 +77,9 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
             nextButton.setTitle("End", forState: .Normal)
             
             if self.mode == self.gameMode {
+                saveScore()
                 userSetting.setBool(true, forKey: "turnpro")
+                
             }
         }
         
@@ -115,8 +118,6 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
         }else if tryAgain.titleLabel!.text == "Watch to try again" {
             tryAgain.backgroundColor = UIColor.blueColor()
         }
-        
-        calculateScore()
         
         // Do any additional setup after loading the view.
     }
@@ -203,7 +204,7 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
             self.story.text = "Challenge mode"
         }
         
-        answer.text = "Answer is \n\(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
+        answer.text = "\(String(key[0]))\(String(key[1]))\(String(key[2]))\(String(key[3]))"
         
         // LV(life x 100 + sec x 10)
         let life = self.life
@@ -248,6 +249,18 @@ class ScoreViewController: UIViewController, UnityAdsDelegate {
         
         self.hightScore.text = "Hight score: \(String(topScore))"
         self.yourScore.text = "Your score: \(String(defind.variable.score))"
+        
+    }
+    
+    func saveScore() {
+        if mode == gameMode {
+            let userSetting: NSUserDefaults! = NSUserDefaults.standardUserDefaults()
+            let hightScore = userSetting.integerForKey("hiscore")
+            
+            if hightScore < defind.variable.score {
+                userSetting.setInteger(defind.variable.score, forKey: "hiscore")
+            }
+        }
     }
     
     func summaryAction(action: String, mode: String) {
